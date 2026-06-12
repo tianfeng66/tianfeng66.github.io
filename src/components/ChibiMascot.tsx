@@ -8,7 +8,7 @@ import {
   type PanInfo,
 } from "framer-motion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import mascotImage from "../assets/chibi-mascot.png";
+import mascotImage from "../assets/chibi-original-front.png";
 
 type MascotState = "idle" | "running" | "waving" | "clicked" | "dragging";
 type Interaction = "jump" | "wave" | "spin" | "bubble" | "dash";
@@ -43,12 +43,16 @@ export default function ChibiMascot() {
   const moveControlsRef = useRef<Array<{ stop: () => void }>>([]);
   const scheduleRoamRef = useRef<(delay?: number) => void>(() => {});
 
-  const getSize = () => window.innerWidth < 640 ? 92 : window.innerWidth < 900 ? 108 : 126;
+  const getSize = () => window.innerWidth < 640
+    ? { width: 92, height: 168 }
+    : window.innerWidth < 900
+      ? { width: 108, height: 197 }
+      : { width: 126, height: 230 };
 
   const clampPosition = useCallback(() => {
     const size = getSize();
-    x.set(Math.max(10, Math.min(x.get(), window.innerWidth - size - 10)));
-    y.set(Math.max(74, Math.min(y.get(), window.innerHeight - size - 10)));
+    x.set(Math.max(10, Math.min(x.get(), window.innerWidth - size.width - 10)));
+    y.set(Math.max(74, Math.min(y.get(), window.innerHeight - size.height - 10)));
   }, [x, y]);
 
   const stopMovement = useCallback(() => {
@@ -67,9 +71,9 @@ export default function ChibiMascot() {
 
       const size = getSize();
       const minX = 12;
-      const maxX = Math.max(minX, window.innerWidth - size - 12);
+      const maxX = Math.max(minX, window.innerWidth - size.width - 12);
       const minY = Math.max(90, window.innerHeight * 0.58);
-      const maxY = Math.max(minY, window.innerHeight - size - 12);
+      const maxY = Math.max(minY, window.innerHeight - size.height - 12);
       const targetX = minX + Math.random() * (maxX - minX);
       const targetY = minY + Math.random() * (maxY - minY);
       const distance = Math.hypot(targetX - x.get(), targetY - y.get());
@@ -134,8 +138,8 @@ export default function ChibiMascot() {
       const targetX = Math.max(
         10,
         Math.min(
-          window.innerWidth - size - 10,
-          x.get() + Math.sign((pointerX ?? window.innerWidth / 2) - (x.get() + size / 2)) * 86,
+          window.innerWidth - size.width - 10,
+          x.get() + Math.sign((pointerX ?? window.innerWidth / 2) - (x.get() + size.width / 2)) * 86,
         ),
       );
       setDirection(targetX >= x.get() ? 1 : -1);
@@ -155,8 +159,8 @@ export default function ChibiMascot() {
   useEffect(() => {
     mountedRef.current = true;
     const size = getSize();
-    x.set(Math.max(12, window.innerWidth - size - 28));
-    y.set(Math.max(90, window.innerHeight - size - 24));
+    x.set(Math.max(12, window.innerWidth - size.width - 28));
+    y.set(Math.max(90, window.innerHeight - size.height - 24));
     scheduleRoam(1400);
 
     const handleResize = () => clampPosition();
@@ -245,13 +249,21 @@ export default function ChibiMascot() {
           animate={actionControls}
           whileHover={{ scale: 1.08 }}
         >
-          <span className="chibi-body-layer">
-            <img
-              src={mascotImage}
-              alt=""
-              draggable="false"
-              style={{ transform: `scaleX(${direction})` }}
-            />
+          <span
+            className="chibi-body-layer"
+            style={{ transform: `scaleX(${direction}) scale(var(--chibi-art-scale, 1))` }}
+            aria-hidden="true"
+          >
+            <span className="chibi-skeleton">
+              <span className="chibi-image-part chibi-image-torso"><img src={mascotImage} alt="" draggable="false" /></span>
+              <span className="chibi-image-part chibi-image-head"><img src={mascotImage} alt="" draggable="false" /></span>
+              <span className="chibi-image-part chibi-image-arm-left"><img src={mascotImage} alt="" draggable="false" /></span>
+              <span className="chibi-image-part chibi-image-arm-right"><img src={mascotImage} alt="" draggable="false" /></span>
+              <span className="chibi-image-part chibi-image-thigh-left"><img src={mascotImage} alt="" draggable="false" /></span>
+              <span className="chibi-image-part chibi-image-shin-left"><img src={mascotImage} alt="" draggable="false" /></span>
+              <span className="chibi-image-part chibi-image-thigh-right"><img src={mascotImage} alt="" draggable="false" /></span>
+              <span className="chibi-image-part chibi-image-shin-right"><img src={mascotImage} alt="" draggable="false" /></span>
+            </span>
           </span>
           <span className={`chibi-happy-spark ${hovered ? "is-visible" : ""}`} aria-hidden="true">+</span>
         </motion.span>
