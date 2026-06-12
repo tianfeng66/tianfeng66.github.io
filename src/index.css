@@ -60,10 +60,36 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 .chibi-mascot.is-dragging { cursor:grabbing; }
 
 .chibi-mascot:focus-visible {
-  outline:2px solid rgba(104,221,255,.9);
-  outline-offset:4px;
-  border-radius:24px;
+  outline:none;
 }
+
+.chibi-close-button {
+  position:fixed;
+  right:18px;
+  top:18px;
+  z-index:999;
+  display:grid;
+  width:32px;
+  height:32px;
+  padding:0;
+  place-items:center;
+  border:1px solid rgba(125,225,255,.72);
+  border-radius:50%;
+  background:rgba(10,106,205,.88);
+  box-shadow:0 5px 18px rgba(0,124,255,.3);
+  color:#fff;
+  cursor:pointer;
+  pointer-events:auto;
+  transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
+}
+.chibi-close-button span { font:300 25px/1 Arial,sans-serif; transform:translateY(-1px); }
+.chibi-close-button:hover {
+  background:#168cff;
+  box-shadow:0 7px 24px rgba(0,153,255,.45);
+  transform:scale(1.08);
+}
+.chibi-close-button:active { transform:scale(.92); }
+.chibi-close-button:focus-visible { outline:2px solid #fff; outline-offset:3px; }
 
 .chibi-character-rig,
 .chibi-body-layer {
@@ -467,6 +493,196 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 @keyframes chibi-photo-celebrate-left { from { transform:rotate(8deg); } to { transform:rotate(28deg); } }
 @keyframes chibi-photo-celebrate-right { from { transform:rotate(-8deg); } to { transform:rotate(-28deg); } }
 
+.chibi-art-svg {
+  position:absolute;
+  left:23px;
+  top:0;
+  width:80px;
+  height:230px;
+  overflow:visible;
+}
+.chibi-art-svg image { pointer-events:none; }
+.chibi-joint {
+  transform-box:view-box;
+  will-change:transform;
+}
+.chibi-joint-head { transform-origin:50% 39%; }
+.chibi-joint-torso { transform-origin:50% 70%; }
+.chibi-joint-arm-left { transform-origin:24% 40%; }
+.chibi-joint-arm-right { transform-origin:76% 40%; }
+.chibi-joint-forearm-left { transform-origin:14% 58%; }
+.chibi-joint-forearm-right { transform-origin:86% 58%; }
+.chibi-joint-leg-left { transform-origin:40% 72%; }
+.chibi-joint-leg-right { transform-origin:60% 72%; }
+.chibi-joint-shin-left { transform-origin:40% 83%; }
+.chibi-joint-shin-right { transform-origin:60% 83%; }
+
+.chibi-mascot.is-idle .chibi-joint-head { animation:chibi-rig-head-idle 3.2s ease-in-out infinite; }
+.chibi-mascot.is-idle .chibi-joint-torso { animation:chibi-rig-breathe 2.8s ease-in-out infinite; }
+.chibi-mascot.is-idle .chibi-joint-arm-left { animation:chibi-rig-idle-left 2.8s ease-in-out infinite alternate; }
+.chibi-mascot.is-idle .chibi-joint-arm-right { animation:chibi-rig-idle-right 3s .2s ease-in-out infinite alternate; }
+
+.chibi-mascot.is-running .chibi-joint-head { animation:chibi-rig-run-head .34s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-torso { animation:chibi-rig-run-torso .34s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-arm-left { animation:chibi-rig-arm-a .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-arm-right { animation:chibi-rig-arm-b .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-leg-left { animation:chibi-rig-leg-b .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-leg-right { animation:chibi-rig-leg-a .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-shin-left { animation:chibi-rig-knee-b .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-shin-right { animation:chibi-rig-knee-a .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-forearm-left { animation:chibi-rig-elbow-a .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-joint-forearm-right { animation:chibi-rig-elbow-b .46s ease-in-out infinite alternate; }
+
+.chibi-mascot.is-waving .chibi-joint-head { animation:chibi-rig-wave-head .7s ease-in-out infinite alternate; }
+.chibi-mascot.is-waving .chibi-joint-torso { animation:chibi-rig-wave-torso .7s ease-in-out infinite alternate; }
+.chibi-mascot.is-waving .chibi-joint-arm-right { transform:rotate(-82deg); }
+.chibi-mascot.is-waving .chibi-joint-forearm-right { animation:chibi-rig-wave-forearm .2s ease-in-out 7 alternate; }
+.chibi-mascot.is-waving .chibi-joint-arm-left { transform:rotate(3deg); }
+
+.chibi-mascot.is-clicked .chibi-joint-arm-left { animation:chibi-rig-cheer-left .34s ease-in-out infinite alternate; }
+.chibi-mascot.is-clicked .chibi-joint-arm-right { animation:chibi-rig-cheer-right .34s ease-in-out infinite alternate; }
+
+@keyframes chibi-rig-head-idle { from { transform:rotate(-1deg); } to { transform:translateY(-3px) rotate(1.5deg); } }
+@keyframes chibi-rig-breathe { from { transform:scaleY(1); } to { transform:translateY(-1px) scaleY(1.008); } }
+@keyframes chibi-rig-idle-left { from { transform:rotate(-1deg); } to { transform:rotate(2deg); } }
+@keyframes chibi-rig-idle-right { from { transform:rotate(1deg); } to { transform:rotate(-2deg); } }
+@keyframes chibi-rig-run-head { from { transform:translateY(2px) rotate(1.4deg); } to { transform:translateY(-2px) rotate(-1.4deg); } }
+@keyframes chibi-rig-run-torso { from { transform:rotate(-1.2deg); } to { transform:rotate(1.2deg); } }
+@keyframes chibi-rig-arm-a { from { transform:rotate(-15deg); } to { transform:rotate(17deg); } }
+@keyframes chibi-rig-arm-b { from { transform:rotate(17deg); } to { transform:rotate(-15deg); } }
+@keyframes chibi-rig-elbow-a { from { transform:rotate(0); } to { transform:rotate(12deg); } }
+@keyframes chibi-rig-elbow-b { from { transform:rotate(12deg); } to { transform:rotate(0); } }
+@keyframes chibi-rig-leg-a { from { transform:rotate(-10deg); } to { transform:rotate(12deg); } }
+@keyframes chibi-rig-leg-b { from { transform:rotate(12deg); } to { transform:rotate(-10deg); } }
+@keyframes chibi-rig-knee-a { from { transform:rotate(0); } to { transform:rotate(14deg); } }
+@keyframes chibi-rig-knee-b { from { transform:rotate(14deg); } to { transform:rotate(0); } }
+@keyframes chibi-rig-wave-head { from { transform:rotate(-2deg); } to { transform:rotate(2deg); } }
+@keyframes chibi-rig-wave-torso { from { transform:rotate(-1deg); } to { transform:rotate(1deg); } }
+@keyframes chibi-rig-wave-forearm { from { transform:rotate(-72deg); } to { transform:rotate(-94deg); } }
+@keyframes chibi-rig-cheer-left { from { transform:rotate(0); } to { transform:rotate(15deg); } }
+@keyframes chibi-rig-cheer-right { from { transform:rotate(0); } to { transform:rotate(-15deg); } }
+
+.chibi-part {
+  position:absolute;
+  display:block;
+  transform-origin:center top;
+  will-change:transform;
+}
+.chibi-part > img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:fill;
+  pointer-events:none;
+}
+.chibi-part-head {
+  z-index:7;
+  left:23px;
+  top:0;
+  width:80px;
+  height:96px;
+  transform-origin:50% 92%;
+}
+.chibi-part-torso {
+  z-index:5;
+  left:35px;
+  top:79px;
+  width:56px;
+  height:95px;
+  transform-origin:50% 92%;
+}
+.chibi-part-arm-left,
+.chibi-part-arm-right {
+  z-index:4;
+  top:85px;
+  width:28px;
+  height:59px;
+  transform-origin:50% 7%;
+}
+.chibi-part-arm-left { left:23px; }
+.chibi-part-arm-right { left:75px; }
+.chibi-part-forearm-left,
+.chibi-part-forearm-right {
+  left:0;
+  top:38px;
+  width:24px;
+  height:55px;
+  transform-origin:50% 7%;
+}
+.chibi-part-forearm-left { left:0; }
+.chibi-part-forearm-right { left:4px; }
+.chibi-part-leg-left,
+.chibi-part-leg-right {
+  z-index:3;
+  top:160px;
+  width:29px;
+  height:43px;
+  transform-origin:50% 6%;
+}
+.chibi-part-leg-left { left:38px; }
+.chibi-part-leg-right { left:60px; }
+.chibi-part-shin-left,
+.chibi-part-shin-right {
+  top:28px;
+  width:36px;
+  height:43px;
+  transform-origin:50% 7%;
+}
+.chibi-part-shin-left { left:-7px; }
+.chibi-part-shin-right { left:0; }
+
+.chibi-mascot.is-idle .chibi-part-head { animation:chibi-part-head-idle 3.4s ease-in-out infinite; }
+.chibi-mascot.is-idle .chibi-part-torso { animation:chibi-part-breathe 2.9s ease-in-out infinite; }
+.chibi-mascot.is-idle .chibi-part-arm-left { animation:chibi-part-idle-left 2.8s ease-in-out infinite alternate; }
+.chibi-mascot.is-idle .chibi-part-arm-right { animation:chibi-part-idle-right 3.1s .2s ease-in-out infinite alternate; }
+
+.chibi-mascot.is-running .chibi-skeleton { animation:chibi-part-walk-bob .46s ease-in-out infinite; }
+.chibi-mascot.is-running .chibi-part-head { animation:chibi-part-walk-head .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-part-torso { animation:chibi-part-walk-torso .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-part-arm-left,
+.chibi-mascot.is-running .chibi-part-leg-right { animation:chibi-part-swing-a .46s cubic-bezier(.45,.05,.55,.95) infinite alternate; }
+.chibi-mascot.is-running .chibi-part-arm-right,
+.chibi-mascot.is-running .chibi-part-leg-left { animation:chibi-part-swing-b .46s cubic-bezier(.45,.05,.55,.95) infinite alternate; }
+.chibi-mascot.is-running .chibi-part-forearm-left { animation:chibi-part-elbow-a .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-part-forearm-right { animation:chibi-part-elbow-b .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-part-shin-left { animation:chibi-part-knee-a .46s ease-in-out infinite alternate; }
+.chibi-mascot.is-running .chibi-part-shin-right { animation:chibi-part-knee-b .46s ease-in-out infinite alternate; }
+
+.chibi-mascot.is-waving .chibi-part-torso { animation:chibi-part-wave-torso .8s ease-in-out infinite alternate; }
+.chibi-mascot.is-waving .chibi-part-head { animation:chibi-part-wave-head .8s ease-in-out infinite alternate; }
+.chibi-mascot.is-waving .chibi-part-arm-right {
+  z-index:6;
+  transform:rotate(-68deg);
+}
+.chibi-mascot.is-waving .chibi-part-forearm-right {
+  animation:chibi-part-wave-forearm .24s ease-in-out 6 alternate;
+}
+.chibi-mascot.is-waving .chibi-part-arm-left { transform:rotate(2deg); }
+
+.chibi-mascot.is-clicked .chibi-part-arm-left { animation:chibi-part-react-left .34s ease-in-out infinite alternate; }
+.chibi-mascot.is-clicked .chibi-part-arm-right { animation:chibi-part-react-right .34s ease-in-out infinite alternate; }
+.chibi-mascot.is-clicked .chibi-part-leg-left { transform:rotate(5deg); }
+.chibi-mascot.is-clicked .chibi-part-leg-right { transform:rotate(-5deg); }
+
+@keyframes chibi-part-head-idle { 0%,100% { transform:rotate(-.7deg); } 50% { transform:translateY(-1px) rotate(1deg); } }
+@keyframes chibi-part-breathe { 0%,100% { transform:scaleY(1); } 50% { transform:translateY(-1px) scaleY(1.008); } }
+@keyframes chibi-part-idle-left { from { transform:rotate(-.5deg); } to { transform:rotate(1.5deg); } }
+@keyframes chibi-part-idle-right { from { transform:rotate(.5deg); } to { transform:rotate(-1.5deg); } }
+@keyframes chibi-part-walk-bob { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-3px); } }
+@keyframes chibi-part-walk-head { from { transform:rotate(1deg); } to { transform:translateY(-1px) rotate(-1deg); } }
+@keyframes chibi-part-walk-torso { from { transform:translateX(-1px) rotate(-1deg); } to { transform:translateX(1px) rotate(1deg); } }
+@keyframes chibi-part-swing-a { from { transform:rotate(-13deg); } to { transform:rotate(14deg); } }
+@keyframes chibi-part-swing-b { from { transform:rotate(14deg); } to { transform:rotate(-13deg); } }
+@keyframes chibi-part-elbow-a { from { transform:rotate(2deg); } to { transform:rotate(10deg); } }
+@keyframes chibi-part-elbow-b { from { transform:rotate(10deg); } to { transform:rotate(2deg); } }
+@keyframes chibi-part-knee-a { from { transform:rotate(0); } to { transform:rotate(16deg) translateY(-1px); } }
+@keyframes chibi-part-knee-b { from { transform:rotate(16deg) translateY(-1px); } to { transform:rotate(0); } }
+@keyframes chibi-part-wave-torso { from { transform:translateX(0) rotate(0); } to { transform:translateX(-1px) rotate(-1.2deg); } }
+@keyframes chibi-part-wave-head { from { transform:rotate(-1deg); } to { transform:rotate(1.5deg); } }
+@keyframes chibi-part-wave-forearm { from { transform:rotate(-96deg); } to { transform:rotate(-116deg); } }
+@keyframes chibi-part-react-left { from { transform:rotate(0); } to { transform:rotate(12deg); } }
+@keyframes chibi-part-react-right { from { transform:rotate(0); } to { transform:rotate(-12deg); } }
+
 .chibi-shadow {
   position:absolute;
   left:24%;
@@ -564,6 +780,7 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
   .chibi-mascot { width:92px; height:168px; }
   .chibi-body-layer { --chibi-art-scale:.73; }
   .chibi-speech-bubble { max-width:150px; padding:8px 11px; font-size:10px; }
+  .chibi-close-button { right:12px; top:12px; width:29px; height:29px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
