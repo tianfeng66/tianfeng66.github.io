@@ -28,6 +28,177 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 .site-content { position:relative; z-index:2; background:transparent; }
 .glass-panel { background:rgba(6,9,12,.68); backdrop-filter:blur(18px) saturate(1.12); }
 .glass-card { background:rgba(9,12,15,.7); backdrop-filter:blur(14px) saturate(1.08); }
+
+/* Global interactive chibi mascot */
+.chibi-mascot-layer {
+  position:fixed;
+  inset:0;
+  z-index:88;
+  overflow:hidden;
+  pointer-events:none;
+}
+
+.chibi-mascot {
+  position:absolute;
+  left:0;
+  top:0;
+  width:126px;
+  height:142px;
+  padding:0;
+  border:0;
+  outline:0;
+  background:transparent;
+  cursor:grab;
+  pointer-events:auto;
+  touch-action:none;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  filter:drop-shadow(0 12px 18px rgba(0,0,0,.24));
+}
+
+.chibi-mascot:active,
+.chibi-mascot.is-dragging { cursor:grabbing; }
+
+.chibi-mascot:focus-visible {
+  outline:2px solid rgba(104,221,255,.9);
+  outline-offset:4px;
+  border-radius:24px;
+}
+
+.chibi-character-rig,
+.chibi-body-layer {
+  position:absolute;
+  inset:0;
+  display:block;
+  transform-origin:50% 92%;
+}
+
+.chibi-body-layer img {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center bottom;
+  transform-origin:center;
+  transition:filter .22s ease;
+  pointer-events:none;
+}
+
+.chibi-mascot.is-idle .chibi-body-layer {
+  animation:chibi-breathe 2.8s ease-in-out infinite;
+}
+
+.chibi-mascot.is-running .chibi-body-layer {
+  animation:chibi-run .3s ease-in-out infinite alternate;
+}
+
+.chibi-mascot.is-waving .chibi-body-layer {
+  animation:chibi-wave .22s ease-in-out 4 alternate;
+}
+
+.chibi-mascot:hover .chibi-body-layer img {
+  filter:brightness(1.06) saturate(1.06);
+}
+
+.chibi-shadow {
+  position:absolute;
+  left:24%;
+  right:24%;
+  bottom:2px;
+  z-index:-1;
+  height:10px;
+  border-radius:50%;
+  background:rgba(0,0,0,.38);
+  filter:blur(5px);
+  transform-origin:center;
+  animation:chibi-shadow-pulse 2.8s ease-in-out infinite;
+}
+
+.is-running .chibi-shadow { animation-duration:.3s; }
+
+.chibi-speech-bubble {
+  position:absolute;
+  right:50%;
+  bottom:calc(100% - 7px);
+  z-index:3;
+  width:max-content;
+  max-width:190px;
+  padding:10px 14px;
+  border:1px solid rgba(15,23,42,.14);
+  border-radius:16px 16px 4px;
+  background:rgba(255,255,255,.96);
+  box-shadow:0 12px 34px rgba(0,0,0,.2);
+  color:#111827;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.45;
+  white-space:nowrap;
+  backdrop-filter:blur(10px);
+}
+
+.chibi-speech-bubble::after {
+  position:absolute;
+  right:10px;
+  bottom:-7px;
+  width:14px;
+  height:14px;
+  content:"";
+  background:inherit;
+  border-right:1px solid rgba(15,23,42,.1);
+  border-bottom:1px solid rgba(15,23,42,.1);
+  transform:rotate(45deg);
+}
+
+.chibi-happy-spark {
+  position:absolute;
+  right:11px;
+  top:13px;
+  color:#68ddff;
+  font:700 22px/1 monospace;
+  opacity:0;
+  text-shadow:0 0 12px rgba(104,221,255,.8);
+  transform:rotate(20deg) scale(.4);
+  transition:opacity .2s ease, transform .2s ease;
+}
+
+.chibi-happy-spark.is-visible {
+  opacity:1;
+  transform:rotate(20deg) scale(1);
+}
+
+@keyframes chibi-breathe {
+  0%,100% { transform:translateY(0) scale(1); }
+  50% { transform:translateY(-4px) scale(1.012); }
+}
+
+@keyframes chibi-run {
+  from { transform:translateY(0) rotate(-1.5deg) scaleY(1); }
+  to { transform:translateY(-7px) rotate(1.5deg) scaleY(.985); }
+}
+
+@keyframes chibi-wave {
+  from { transform:rotate(-3deg) translateY(0); }
+  to { transform:rotate(4deg) translateY(-5px); }
+}
+
+@keyframes chibi-shadow-pulse {
+  0%,100% { opacity:.72; transform:scaleX(1); }
+  50% { opacity:.42; transform:scaleX(.82); }
+}
+
+@media (max-width: 900px) {
+  .chibi-mascot { width:108px; height:122px; }
+}
+
+@media (max-width: 640px) {
+  .chibi-mascot { width:92px; height:105px; }
+  .chibi-speech-bubble { max-width:150px; padding:8px 11px; font-size:10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chibi-body-layer,
+  .chibi-shadow { animation-duration:4s !important; animation-iteration-count:1 !important; }
+}
 .hero-frame { background: radial-gradient(circle at 80% 25%, rgba(222,219,200,.08), transparent 32%), #000; }
 .ai-stage { user-select: none; pointer-events: none; filter: saturate(.72) contrast(1.06); }
 .astronaut-swarm { pointer-events:none; }
