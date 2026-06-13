@@ -85,6 +85,17 @@ const portfolioItems: PortfolioItem[] = [
     type: "image",
     size: "standard",
   },
+  {
+    id: "fishing",
+    index: "07",
+    category: "AI CONTENT",
+    title: "钓鱼佬除了鱼，什么都能钓到",
+    description: "以第一人称钓鱼视角切入怪兽灾难场景，通过强烈的尺度反差和黑色幽默构建短片电影主视觉。",
+    tags: ["AI 视觉", "短片电影", "创意海报"],
+    src: "/media/portfolio/fishing-everything.webp",
+    type: "image",
+    size: "standard",
+  },
 ];
 
 export default function ToolLab() {
