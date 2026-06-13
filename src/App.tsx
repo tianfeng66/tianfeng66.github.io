@@ -330,6 +330,13 @@ function App() {
           </motion.div>
         </section>
 
+        <section id="experience" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
+          <SectionLabel>Experience</SectionLabel>
+          <h2 className="max-w-4xl text-5xl font-bold tracking-[-0.055em] md:text-8xl">核心项目经历</h2>
+          <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-400 md:text-base">从 SFT、多模态 VQA 到视频 Caption，我参与的是模型能力背后的数据工程。</p>
+          <div className="mt-16 grid gap-6">{projects.map((project) => <ProjectCard key={project.number} project={project} />)}</div>
+        </section>
+
         <section id="media" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
           <SectionLabel>Video Casebook</SectionLabel>
           <h2 className="max-w-5xl text-5xl font-bold tracking-[-0.055em] md:text-8xl">把判断过程讲清楚。</h2>
@@ -358,13 +365,6 @@ function App() {
             <p>从 AI 工作流、RPA 自动化到产品方案与视觉内容创作，这里集中展示我在工具落地、效率提升和内容表达上的实践。</p>
           </div>
           <ToolLab />
-        </section>
-
-        <section id="experience" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
-          <SectionLabel>Experience</SectionLabel>
-          <h2 className="max-w-4xl text-5xl font-bold tracking-[-0.055em] md:text-8xl">核心项目经历</h2>
-          <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-400 md:text-base">从 SFT、多模态 VQA 到视频 Caption，我参与的是模型能力背后的数据工程。</p>
-          <div className="mt-16 grid gap-6">{projects.map((project) => <ProjectCard key={project.number} project={project} />)}</div>
         </section>
 
         <section id="cases" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
