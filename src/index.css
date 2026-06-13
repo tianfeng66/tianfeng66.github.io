@@ -767,14 +767,6 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
     top .45s cubic-bezier(.22,1,.36,1), bottom .45s cubic-bezier(.22,1,.36,1),
     transform .45s cubic-bezier(.22,1,.36,1);
 }
-.chibi-mascot-layer.is-home-position {
-  left:var(--chibi-home-left);
-  right:auto;
-  top:var(--chibi-home-top);
-  bottom:auto;
-  transform:scale(.78);
-  transform-origin:top center;
-}
 .chibi-mascot-layer.is-page-position {
   left:auto;
   right:22px;
@@ -787,8 +779,8 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
   position:relative;
   left:auto;
   top:auto;
-  pointer-events:none;
-  cursor:default;
+  pointer-events:auto;
+  cursor:pointer;
 }
 .chibi-mascot-layer .chibi-skeleton {
   animation:none;
@@ -802,42 +794,86 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 .chibi-mascot-layer .chibi-part-arm-left {
   animation:chibi-part-idle-left 4.4s ease-in-out infinite alternate;
 }
-.chibi-mascot-layer .chibi-part-arm-right {
-  animation:chibi-fixed-greeting 4.8s ease-in-out infinite;
+.chibi-part-forearm-right {
+  height:38px;
 }
-.chibi-mascot-layer .chibi-part-forearm-right {
-  animation:chibi-fixed-wrist 4.8s ease-in-out infinite;
+.chibi-part-hand-right {
+  z-index:2;
+  left:7px;
+  top:32px;
+  width:17px;
+  height:23px;
+  transform-origin:50% 10%;
+}
+.chibi-mascot.wave-idle .chibi-part-arm-right {
+  animation:chibi-auto-upper-arm 6.4s ease-in-out infinite;
+}
+.chibi-mascot.wave-idle .chibi-part-forearm-right {
+  animation:chibi-auto-forearm 6.4s ease-in-out infinite;
+}
+.chibi-mascot.wave-idle .chibi-part-hand-right {
+  animation:chibi-auto-hand 6.4s ease-in-out infinite;
+}
+.chibi-mascot.wave-hover .chibi-part-arm-right,
+.chibi-mascot.wave-click .chibi-part-arm-right {
+  z-index:6;
+  animation:chibi-wave-upper-arm 1.55s ease-in-out both;
+}
+.chibi-mascot.wave-hover .chibi-part-forearm-right,
+.chibi-mascot.wave-click .chibi-part-forearm-right {
+  animation:chibi-wave-bent-forearm 1.55s ease-in-out both;
+}
+.chibi-mascot.wave-hover .chibi-part-hand-right,
+.chibi-mascot.wave-click .chibi-part-hand-right {
+  animation:chibi-wave-hand 1.55s ease-in-out both;
+}
+.chibi-mascot.wave-click .chibi-part-torso {
+  animation:chibi-wave-body-response 1.55s ease-in-out both;
+}
+.chibi-mascot.wave-click .chibi-part-head {
+  animation:chibi-wave-head-response 1.55s ease-in-out both;
 }
 .chibi-close-button,
 .chibi-speech-bubble,
 .chibi-happy-spark {
   display:none !important;
 }
-@keyframes chibi-fixed-greeting {
-  0%,58%,100% { transform:rotate(0); }
-  66%,92% { transform:rotate(-62deg); }
+@keyframes chibi-auto-upper-arm {
+  0%,62%,100% { transform:rotate(0); }
+  69%,91% { transform:rotate(-34deg); }
 }
-@keyframes chibi-fixed-wrist {
-  0%,58%,100% { transform:rotate(0); }
-  66% { transform:rotate(-82deg); }
-  72% { transform:rotate(-100deg); }
-  78% { transform:rotate(-82deg); }
-  84% { transform:rotate(-100deg); }
-  92% { transform:rotate(-82deg); }
+@keyframes chibi-auto-forearm {
+  0%,62%,100% { transform:rotate(0); }
+  69%,91% { transform:rotate(-108deg); }
 }
-@media (max-width:900px) {
-  .chibi-mascot-layer.is-home-position {
-    transform:scale(.64);
-  }
+@keyframes chibi-auto-hand {
+  0%,62%,100% { transform:rotate(0); }
+  69%,91% { transform:rotate(-22deg); }
+  73%,81%,89% { transform:rotate(-7deg); }
+  77%,85% { transform:rotate(-37deg); }
+}
+@keyframes chibi-wave-upper-arm {
+  0%,100% { transform:rotate(0); }
+  18%,82% { transform:rotate(-34deg); }
+}
+@keyframes chibi-wave-bent-forearm {
+  0%,100% { transform:rotate(0); }
+  18%,82% { transform:rotate(-108deg); }
+}
+@keyframes chibi-wave-hand {
+  0%,12%,88%,100% { transform:rotate(0); }
+  22%,42%,62%,82% { transform:rotate(-8deg); }
+  32%,52%,72% { transform:rotate(-38deg); }
+}
+@keyframes chibi-wave-body-response {
+  0%,100% { transform:translateY(0) rotate(0); }
+  20%,82% { transform:translateY(-1px) rotate(-.8deg); }
+}
+@keyframes chibi-wave-head-response {
+  0%,100% { transform:rotate(0); }
+  20%,82% { transform:rotate(1.5deg); }
 }
 @media (max-width:640px) {
-  .chibi-mascot-layer.is-home-position {
-    left:var(--chibi-home-left);
-    right:auto;
-    top:var(--chibi-home-top);
-    transform:scale(.54);
-    transform-origin:top left;
-  }
   .chibi-mascot-layer.is-page-position {
     right:8px;
     bottom:10px;

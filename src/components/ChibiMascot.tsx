@@ -1,67 +1,44 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import headImage from "../assets/chibi-parts/head.png";
 import leftForearmImage from "../assets/chibi-parts/left-forearm.png";
 import leftShinImage from "../assets/chibi-parts/left-shin.png";
 import leftThighImage from "../assets/chibi-parts/left-thigh.png";
 import leftUpperArmImage from "../assets/chibi-parts/left-upper-arm.png";
-import rightForearmImage from "../assets/chibi-parts/right-forearm.png";
+import rightForearmSleeveImage from "../assets/chibi-parts/right-forearm-sleeve.png";
+import rightHandImage from "../assets/chibi-parts/right-hand.png";
 import rightShinImage from "../assets/chibi-parts/right-shin.png";
 import rightThighImage from "../assets/chibi-parts/right-thigh.png";
 import rightUpperArmImage from "../assets/chibi-parts/right-upper-arm.png";
 import torsoImage from "../assets/chibi-parts/torso.png";
 
 export default function ChibiMascot() {
-  const [isHome, setIsHome] = useState(true);
-  const [heroAnchor, setHeroAnchor] = useState({ left: 0, top: 0 });
+  const [waveState, setWaveState] = useState<"idle" | "hover" | "click">("idle");
+  const resetTimerRef = useRef<number>();
 
-  useEffect(() => {
-    let frame = 0;
-
-    const updatePosition = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const hero = document.getElementById("home");
-        if (!hero) return;
-        const rect = hero.getBoundingClientRect();
-        const nextIsHome = rect.bottom > window.innerHeight * 0.55;
-        setIsHome(nextIsHome);
-
-        if (nextIsHome) {
-          const name = hero.querySelector<HTMLElement>(".hero-copy h1 span");
-          if (name) {
-            const nameRect = name.getBoundingClientRect();
-            const scale = window.innerWidth <= 640 ? 0.54 : window.innerWidth <= 900 ? 0.64 : 0.78;
-            const mascotHeight = 230 * scale;
-            setHeroAnchor({
-              left: Math.min(window.innerWidth - 126 * scale - 10, nameRect.right + 22),
-              top: nameRect.top + nameRect.height / 2 - mascotHeight / 2,
-            });
-          }
-        }
-      });
-    };
-
-    updatePosition();
-    window.addEventListener("scroll", updatePosition, { passive: true });
-    window.addEventListener("resize", updatePosition, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", updatePosition);
-      window.removeEventListener("resize", updatePosition);
-    };
+  useEffect(() => () => {
+    if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
   }, []);
 
+  const playClickWave = () => {
+    if (resetTimerRef.current) window.clearTimeout(resetTimerRef.current);
+    setWaveState("click");
+    resetTimerRef.current = window.setTimeout(() => setWaveState("idle"), 1750);
+  };
+
   return (
-    <div
-      className={`chibi-mascot-layer ${isHome ? "is-home-position" : "is-page-position"}`}
-      style={isHome ? {
-        "--chibi-home-left": `${heroAnchor.left}px`,
-        "--chibi-home-top": `${heroAnchor.top}px`,
-      } as CSSProperties : undefined}
-      aria-hidden="true"
-    >
-      <div className="chibi-mascot is-idle">
+    <div className="chibi-mascot-layer is-page-position">
+      <button
+        type="button"
+        className={`chibi-mascot is-idle wave-${waveState}`}
+        onMouseEnter={() => {
+          if (waveState !== "click") setWaveState("hover");
+        }}
+        onMouseLeave={() => {
+          if (waveState !== "click") setWaveState("idle");
+        }}
+        onClick={playClickWave}
+        aria-label="向田丰打招呼"
+      >
         <span className="chibi-character-rig">
           <span className="chibi-body-layer">
             <span className="chibi-skeleton">
@@ -86,7 +63,10 @@ export default function ChibiMascot() {
               <span className="chibi-part chibi-part-arm-right">
                 <img src={rightUpperArmImage} alt="" draggable="false" />
                 <span className="chibi-part chibi-part-forearm-right">
-                  <img src={rightForearmImage} alt="" draggable="false" />
+                  <img src={rightForearmSleeveImage} alt="" draggable="false" />
+                  <span className="chibi-part chibi-part-hand-right">
+                    <img src={rightHandImage} alt="" draggable="false" />
+                  </span>
                 </span>
               </span>
               <span className="chibi-part chibi-part-torso">
@@ -99,7 +79,7 @@ export default function ChibiMascot() {
           </span>
         </span>
         <span className="chibi-shadow" />
-      </div>
+      </button>
     </div>
   );
 }
