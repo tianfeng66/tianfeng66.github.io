@@ -352,10 +352,10 @@ function App() {
         </section>
 
         <section id="automation" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
-          <SectionLabel>Interactive Tool Lab</SectionLabel>
+          <SectionLabel>Selected Portfolio</SectionLabel>
           <div className="tool-lab-heading">
-            <h2>不只展示工具，<br />直接在这里体验。</h2>
-            <p>四个真实项目来自微信小程序、Android、FastAPI 与浏览器工具。这里把各自核心工作流重构为统一的网页体验版本。</p>
+            <h2>作品不是概念，<br />而是解决问题的过程。</h2>
+            <p>从 AI 工作流、RPA 自动化到产品方案与视觉内容创作，这里集中展示我在工具落地、效率提升和内容表达上的实践。</p>
           </div>
           <ToolLab />
         </section>
