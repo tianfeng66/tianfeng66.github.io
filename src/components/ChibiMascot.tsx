@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import headImage from "../assets/chibi-parts/head.png";
 import leftForearmImage from "../assets/chibi-parts/left-forearm.png";
 import leftShinImage from "../assets/chibi-parts/left-shin.png";
@@ -12,6 +12,7 @@ import torsoImage from "../assets/chibi-parts/torso.png";
 
 export default function ChibiMascot() {
   const [isHome, setIsHome] = useState(true);
+  const [heroAnchor, setHeroAnchor] = useState({ left: 0, top: 0 });
 
   useEffect(() => {
     let frame = 0;
@@ -22,7 +23,21 @@ export default function ChibiMascot() {
         const hero = document.getElementById("home");
         if (!hero) return;
         const rect = hero.getBoundingClientRect();
-        setIsHome(rect.bottom > window.innerHeight * 0.55);
+        const nextIsHome = rect.bottom > window.innerHeight * 0.55;
+        setIsHome(nextIsHome);
+
+        if (nextIsHome) {
+          const name = hero.querySelector<HTMLElement>(".hero-copy h1 span");
+          if (name) {
+            const nameRect = name.getBoundingClientRect();
+            const scale = window.innerWidth <= 640 ? 0.54 : window.innerWidth <= 900 ? 0.64 : 0.78;
+            const mascotHeight = 230 * scale;
+            setHeroAnchor({
+              left: Math.min(window.innerWidth - 126 * scale - 10, nameRect.right + 22),
+              top: nameRect.top + nameRect.height / 2 - mascotHeight / 2,
+            });
+          }
+        }
       });
     };
 
@@ -40,6 +55,10 @@ export default function ChibiMascot() {
   return (
     <div
       className={`chibi-mascot-layer ${isHome ? "is-home-position" : "is-page-position"}`}
+      style={isHome ? {
+        "--chibi-home-left": `${heroAnchor.left}px`,
+        "--chibi-home-top": `${heroAnchor.top}px`,
+      } as CSSProperties : undefined}
       aria-hidden="true"
     >
       <div className="chibi-mascot is-idle">

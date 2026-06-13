@@ -768,11 +768,11 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
     transform .45s cubic-bezier(.22,1,.36,1);
 }
 .chibi-mascot-layer.is-home-position {
-  left:calc(50% + clamp(190px, 20vw, 330px));
+  left:var(--chibi-home-left);
   right:auto;
-  top:clamp(92px, 15vh, 150px);
+  top:var(--chibi-home-top);
   bottom:auto;
-  transform:translateX(-50%) scale(.82);
+  transform:scale(.78);
   transform-origin:top center;
 }
 .chibi-mascot-layer.is-page-position {
@@ -827,18 +827,16 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 }
 @media (max-width:900px) {
   .chibi-mascot-layer.is-home-position {
-    left:calc(50% + 185px);
-    top:120px;
-    transform:translateX(-50%) scale(.67);
+    transform:scale(.64);
   }
 }
 @media (max-width:640px) {
   .chibi-mascot-layer.is-home-position {
-    left:auto;
-    right:8px;
-    top:96px;
-    transform:scale(.58);
-    transform-origin:top right;
+    left:var(--chibi-home-left);
+    right:auto;
+    top:var(--chibi-home-top);
+    transform:scale(.54);
+    transform-origin:top left;
   }
   .chibi-mascot-layer.is-page-position {
     right:8px;
