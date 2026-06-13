@@ -24,7 +24,6 @@ import {
 } from "lucide-react";
 import { useCallback, useState } from "react";
 import AmbientMusicButton from "./components/AmbientMusicButton";
-import ChibiMascot from "./components/ChibiMascot";
 import Ferrofluid from "./components/Ferrofluid";
 import Galaxy from "./components/Galaxy";
 import GlobalBorderGlow from "./components/GlobalBorderGlow";
@@ -292,7 +291,6 @@ function App() {
   return (
     <>
       <GlobalBorderGlow />
-      <ChibiMascot />
       <AnimatePresence>{!loaded && <LoadingScreen onComplete={finishLoading} />}</AnimatePresence>
       <Ferrofluid
         className="site-ferrofluid"
