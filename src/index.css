@@ -32,64 +32,31 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 /* Global interactive chibi mascot */
 .chibi-mascot-layer {
   position:fixed;
-  inset:0;
+  bottom:20px;
+  right:20px;
   z-index:88;
-  overflow:hidden;
   pointer-events:none;
 }
 
 .chibi-mascot {
-  position:absolute;
-  left:0;
-  top:0;
+  display:block;
+  position:relative;
   width:126px;
   height:230px;
   padding:0;
   border:0;
   outline:0;
   background:transparent;
-  cursor:grab;
+  cursor:pointer;
   pointer-events:auto;
-  touch-action:none;
   user-select:none;
   -webkit-tap-highlight-color:transparent;
   filter:drop-shadow(0 12px 18px rgba(0,0,0,.24));
 }
 
-.chibi-mascot:active,
-.chibi-mascot.is-dragging { cursor:grabbing; }
-
 .chibi-mascot:focus-visible {
   outline:none;
 }
-
-.chibi-close-button {
-  position:fixed;
-  right:18px;
-  top:18px;
-  z-index:999;
-  display:grid;
-  width:32px;
-  height:32px;
-  padding:0;
-  place-items:center;
-  border:1px solid rgba(125,225,255,.72);
-  border-radius:50%;
-  background:rgba(10,106,205,.88);
-  box-shadow:0 5px 18px rgba(0,124,255,.3);
-  color:#fff;
-  cursor:pointer;
-  pointer-events:auto;
-  transition:transform .18s ease,background .18s ease,box-shadow .18s ease;
-}
-.chibi-close-button span { font:300 25px/1 Arial,sans-serif; transform:translateY(-1px); }
-.chibi-close-button:hover {
-  background:#168cff;
-  box-shadow:0 7px 24px rgba(0,153,255,.45);
-  transform:scale(1.08);
-}
-.chibi-close-button:active { transform:scale(.92); }
-.chibi-close-button:focus-visible { outline:2px solid #fff; outline-offset:3px; }
 
 .chibi-character-rig,
 .chibi-body-layer {
@@ -786,6 +753,98 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 @media (prefers-reduced-motion: reduce) {
   .chibi-body-layer *,
   .chibi-shadow { animation-duration:4s !important; animation-iteration-count:1 !important; }
+}
+
+/* Fixed mascot placement: beside the hero name, then bottom-right on inner sections. */
+.chibi-mascot-layer {
+  position:fixed;
+  inset:auto;
+  width:126px;
+  height:230px;
+  overflow:visible;
+  pointer-events:none;
+  transition:left .45s cubic-bezier(.22,1,.36,1), right .45s cubic-bezier(.22,1,.36,1),
+    top .45s cubic-bezier(.22,1,.36,1), bottom .45s cubic-bezier(.22,1,.36,1),
+    transform .45s cubic-bezier(.22,1,.36,1);
+}
+.chibi-mascot-layer.is-home-position {
+  left:calc(50% + clamp(190px, 20vw, 330px));
+  right:auto;
+  top:clamp(92px, 15vh, 150px);
+  bottom:auto;
+  transform:translateX(-50%) scale(.82);
+  transform-origin:top center;
+}
+.chibi-mascot-layer.is-page-position {
+  left:auto;
+  right:22px;
+  top:auto;
+  bottom:18px;
+  transform:scale(.72);
+  transform-origin:bottom right;
+}
+.chibi-mascot {
+  position:relative;
+  left:auto;
+  top:auto;
+  pointer-events:none;
+  cursor:default;
+}
+.chibi-mascot-layer .chibi-skeleton {
+  animation:none;
+}
+.chibi-mascot-layer .chibi-part-head {
+  animation:chibi-part-head-idle 4.2s ease-in-out infinite;
+}
+.chibi-mascot-layer .chibi-part-torso {
+  animation:chibi-part-breathe 3.6s ease-in-out infinite;
+}
+.chibi-mascot-layer .chibi-part-arm-left {
+  animation:chibi-part-idle-left 4.4s ease-in-out infinite alternate;
+}
+.chibi-mascot-layer .chibi-part-arm-right {
+  animation:chibi-fixed-greeting 4.8s ease-in-out infinite;
+}
+.chibi-mascot-layer .chibi-part-forearm-right {
+  animation:chibi-fixed-wrist 4.8s ease-in-out infinite;
+}
+.chibi-close-button,
+.chibi-speech-bubble,
+.chibi-happy-spark {
+  display:none !important;
+}
+@keyframes chibi-fixed-greeting {
+  0%,58%,100% { transform:rotate(0); }
+  66%,92% { transform:rotate(-62deg); }
+}
+@keyframes chibi-fixed-wrist {
+  0%,58%,100% { transform:rotate(0); }
+  66% { transform:rotate(-82deg); }
+  72% { transform:rotate(-100deg); }
+  78% { transform:rotate(-82deg); }
+  84% { transform:rotate(-100deg); }
+  92% { transform:rotate(-82deg); }
+}
+@media (max-width:900px) {
+  .chibi-mascot-layer.is-home-position {
+    left:calc(50% + 185px);
+    top:120px;
+    transform:translateX(-50%) scale(.67);
+  }
+}
+@media (max-width:640px) {
+  .chibi-mascot-layer.is-home-position {
+    left:auto;
+    right:8px;
+    top:96px;
+    transform:scale(.58);
+    transform-origin:top right;
+  }
+  .chibi-mascot-layer.is-page-position {
+    right:8px;
+    bottom:10px;
+    transform:scale(.56);
+  }
 }
 .hero-frame { background: radial-gradient(circle at 80% 25%, rgba(222,219,200,.08), transparent 32%), #000; }
 .ai-stage { user-select: none; pointer-events: none; filter: saturate(.72) contrast(1.06); }
