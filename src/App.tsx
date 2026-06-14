@@ -173,15 +173,15 @@ const collaborators = [
 const mediaCases = [
   {
     eyebrow: "GOOD CASE / BAD CASE",
-    title: "如何建立可执行的正负样本判断",
-    text: "从视觉事实、合理推断到强答幻觉，用对照案例统一标注口径，并把争议样本沉淀进规则文档。",
+    title: "建立电商图生视频评测标准",
+    text: "围绕商品主体一致性、运动自然度、画面稳定性与营销可用性，建立可执行的 Good Case / Bad Case 判断口径。",
     video: "/media/goodcase.mp4",
     poster: "/media/goodcase-cover.jpg",
   },
   {
     eyebrow: "BAD CASE ANALYSIS",
-    title: "从错误现象追到模型薄弱维度",
-    text: "围绕 OCR、数量、透明反光物体和图文不一致问题，展示 Badcase 归因与专项审核思路。",
+    title: "定位主流模型的薄弱维度",
+    text: "通过商品形变、文字失真、镜头抖动、物理运动异常等 Bad Case，对不同图生视频模型进行横向分析与问题归因。",
     video: "/media/badcase.mp4",
     poster: "/media/badcase-cover.jpg",
   },
@@ -338,9 +338,9 @@ function App() {
         </section>
 
         <section id="media" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
-          <SectionLabel>Video Casebook</SectionLabel>
-          <h2 className="max-w-5xl text-5xl font-bold tracking-[-0.055em] md:text-8xl">把判断过程讲清楚。</h2>
-          <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-400 md:text-base">这里不只展示结果，也展示我如何理解规则、拆解错误、完成多模态数据交付。</p>
+          <SectionLabel>Model Evaluation</SectionLabel>
+          <h2 className="max-w-6xl text-5xl font-bold tracking-[-0.055em] md:text-8xl">电商场景下对主流图生视频模型进行评测</h2>
+          <p className="mt-6 max-w-3xl text-sm leading-7 text-gray-400 md:text-base">从商品主体一致性、动态自然度、画面稳定性和营销可用性出发，对主流图生视频模型建立统一标准、开展横向测试并完成 Bad Case 归因。</p>
           <div className="video-case-grid">{mediaCases.map((item, index) => <VideoCaseCard key={item.title} item={item} index={index} />)}</div>
         </section>
 
