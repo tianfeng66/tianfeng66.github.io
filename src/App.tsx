@@ -42,7 +42,7 @@ const projects: Project[] = [
   {
     number: "01",
     title: "小红书「点点」AI 搜索 SFT 数据标评项目",
-    period: "2025.04 - 2025.08",
+    period: "2025.03 - 2025.09",
     role: "AI 训练师 / 项目助理",
     icon: "search",
     tags: ["SFT 数据", "生活场景", "图文一致性", "规则构建", "质检闭环"],
@@ -57,24 +57,8 @@ const projects: Project[] = [
   },
   {
     number: "02",
-    title: "腾讯混元多模态 VQA 视觉问答项目",
-    period: "2025.09 - 2025.12",
-    role: "多模态标注实习生 / 项目助理",
-    icon: "eye",
-    tags: ["VQA", "视觉问答", "OCR", "视觉幻觉", "Badcase 分析"],
-    description: "参与腾讯混元及腾讯元宝相关视觉问答数据建设，覆盖 K12 教育、电商导购和生活百科。重点处理看图不识数、答非所问、OCR 乱码和强答幻觉等问题。",
-    metrics: [
-      { value: "7 类", label: "核心问题标签体系" },
-      { value: "≥20%", label: "日常抽检比例" },
-      { value: "2.8 万", label: "高难度样本处理" },
-      { value: "95%+", label: "正式标注准确率" },
-      { value: "97%", label: "答案事实准确率" },
-    ],
-  },
-  {
-    number: "03",
-    title: "腾讯音画一致性 Caption 图像描述项目",
-    period: "2026.01 - 2026.05",
+    title: "腾讯音画一致性 Caption 视频描述项目",
+    period: "2025.10 - 2026.05",
     role: "AI 数据训练 / 多模态质检实习生",
     icon: "file",
     tags: ["Caption", "视频理解", "音画一致", "时间轴", "AIGC 标签"],
@@ -97,7 +81,7 @@ const cases = [
 ];
 
 const skills = [
-  { title: "数据训练与标注", items: ["SFT 数据构建", "VQA 视觉问答", "Caption 标注", "多模态图文一致性", "音画一致性判断"] },
+  { title: "数据训练与标注", items: ["SFT 数据构建", "Caption 标注", "多模态图文一致性", "音画一致性判断", "Badcase 归因"] },
   { title: "规则与质检", items: ["标注规则文档搭建", "Good / Bad Case 归纳", "Checklist 质检", "抽检复核", "错误归因与规则迭代"] },
   { title: "模型评测", items: ["人工打分与自动化评测", "多轮评测 SOP", "Badcase 分布统计", "模型薄弱场景定位", "生成质量评估"] },
   { title: "工具与协作", items: ["Python 数据清洗", "JSON 字段规范化", "Vibe Coding 工具开发", "飞书 / 企业微信", "多地团队协同培训"] },
@@ -333,7 +317,7 @@ function App() {
         <section id="experience" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
           <SectionLabel>Experience</SectionLabel>
           <h2 className="max-w-4xl text-5xl font-bold tracking-[-0.055em] md:text-8xl">核心项目经历</h2>
-          <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-400 md:text-base">从 SFT、多模态 VQA 到视频 Caption，我参与的是模型能力背后的数据工程。</p>
+          <p className="mt-6 max-w-2xl text-sm leading-7 text-gray-400 md:text-base">从 SFT 数据构建到视频 Caption，我参与的是模型能力背后的数据工程。</p>
           <div className="mt-16 grid gap-6">{projects.map((project) => <ProjectCard key={project.number} project={project} />)}</div>
         </section>
 
