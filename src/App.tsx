@@ -37,6 +37,7 @@ import SectionLabel from "./components/SectionLabel";
 import SkillCard from "./components/SkillCard";
 import ToolLab from "./components/ToolLab";
 import WordsPullUpMultiStyle from "./components/WordsPullUpMultiStyle";
+import { captionCases } from "./data/captionCases";
 
 const projects: Project[] = [
   {
@@ -70,6 +71,7 @@ const projects: Project[] = [
       { value: "≥95%", label: "个人标注准确率" },
       { value: "-40%", label: "基础格式核查耗时" },
     ],
+    captionCases,
   },
 ];
 

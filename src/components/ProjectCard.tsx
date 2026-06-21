@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { Search, Eye, FileText } from "lucide-react";
+import { Search, Eye, FileText, Play } from "lucide-react";
+import { useRef, useState } from "react";
 import MetricCard from "./MetricCard";
 
 export type Project = {
@@ -11,9 +12,46 @@ export type Project = {
   tags: string[];
   metrics: { value: string; label: string }[];
   icon: "search" | "eye" | "file";
+  captionCases?: CaptionCase[];
+};
+
+export type CaptionCase = {
+  id: string;
+  title: string;
+  duration: string;
+  video: string;
+  meta: string[];
+  summary: string;
+  definitions: string;
+  fullDescription: string;
 };
 
 const icons = { search: Search, eye: Eye, file: FileText };
+
+function CaptionVideo({ item, index }: { item: CaptionCase; index: number }) {
+  const [started, setStarted] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const startVideo = () => {
+    setStarted(true);
+    window.requestAnimationFrame(() => void videoRef.current?.play());
+  };
+
+  return (
+    <div className={`caption-case-video ${started ? "is-started" : ""}`}>
+      <video ref={videoRef} controls={started} preload="none" playsInline>
+        <source src={item.video} type="video/mp4" />
+      </video>
+      {!started && (
+        <button type="button" className="caption-case-poster" onClick={startVideo} aria-label={`播放${item.title}`}>
+          <span>0{index + 1}</span>
+          <strong><Play size={15} fill="currentColor" /> 播放案例</strong>
+          <small>{item.duration} · CAPTION SAMPLE</small>
+        </button>
+      )}
+    </div>
+  );
+}
 
 export default function ProjectCard({ project }: { project: Project }) {
   const Icon = icons[project.icon];
@@ -47,6 +85,45 @@ export default function ProjectCard({ project }: { project: Project }) {
       <div className="mt-10 grid grid-cols-2 gap-5 lg:grid-cols-3">
         {project.metrics.map((metric) => <MetricCard key={metric.label} {...metric} />)}
       </div>
+      {project.captionCases?.length ? (
+        <section className="caption-casebook" aria-label="Caption 视频描述案例">
+          <div className="caption-casebook-heading">
+            <div>
+              <span>CAPTION DESCRIPTION CASES</span>
+              <h4>从场景拆解到时间轴描述</h4>
+            </div>
+            <p>以下案例展示场景、主体、声音、镜头语言与后期包装元素的结构化描述方式。</p>
+          </div>
+          <div className="caption-case-grid">
+            {project.captionCases.map((item, index) => (
+              <article className="caption-case" key={item.id}>
+                <CaptionVideo item={item} index={index} />
+                <div className="caption-case-copy">
+                  <div className="caption-case-title">
+                    <div>
+                      <small>{item.duration} · VIDEO CAPTION</small>
+                      <h5>{item.title}</h5>
+                    </div>
+                  </div>
+                  <div className="caption-case-meta">
+                    {item.meta.map((meta) => <span key={meta}>{meta}</span>)}
+                  </div>
+                  <p>{item.summary}</p>
+                  <details>
+                    <summary>查看完整 Caption 描述</summary>
+                    <div className="caption-case-detail">
+                      <strong>场景 / 主体 / 后期包装</strong>
+                      <p>{item.definitions}</p>
+                      <strong>完整时间轴描述</strong>
+                      <p>{item.fullDescription}</p>
+                    </div>
+                  </details>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </motion.article>
   );
 }

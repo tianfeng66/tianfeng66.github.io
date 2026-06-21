@@ -729,6 +729,205 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 .video-case-card h3 { margin:10px 0 0; font-size:clamp(24px,2.2vw,38px); letter-spacing:-.035em; }
 .video-description { max-width:650px; margin:10px 0 0; color:#888; font-size:13px; line-height:1.8; }
 
+/* Caption cases embedded in the Tencent project card */
+.caption-casebook {
+  margin-top:48px;
+  padding-top:40px;
+  border-top:1px solid rgba(255,255,255,.09);
+}
+.caption-casebook-heading {
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:32px;
+}
+.caption-casebook-heading span {
+  color:rgba(222,219,200,.42);
+  font:600 9px/1.4 monospace;
+  letter-spacing:.18em;
+}
+.caption-casebook-heading h4 {
+  margin:10px 0 0;
+  color:#dedbc8;
+  font-size:clamp(26px,3vw,42px);
+  line-height:1;
+  letter-spacing:-.045em;
+}
+.caption-casebook-heading>p {
+  max-width:430px;
+  margin:0;
+  color:#858b8f;
+  font-size:11px;
+  line-height:1.8;
+}
+.caption-case-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:30px;
+}
+.caption-case {
+  min-width:0;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:20px;
+  background:rgba(3,7,10,.62);
+  transition:border-color .25s ease,transform .25s ease;
+}
+.caption-case:hover {
+  border-color:rgba(90,224,239,.24);
+  transform:translateY(-3px);
+}
+.caption-case-video {
+  position:relative;
+  overflow:hidden;
+  aspect-ratio:8/5;
+  background:
+    radial-gradient(circle at 72% 28%,rgba(61,207,226,.14),transparent 28%),
+    linear-gradient(145deg,#071015,#020406 72%);
+}
+.caption-case-video video {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+.caption-case-poster {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:flex-end;
+  width:100%;
+  padding:18px;
+  border:0;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:28px 28px;
+  color:#dfe7e7;
+  text-align:left;
+  cursor:pointer;
+}
+.caption-case-poster::after {
+  position:absolute;
+  inset:0;
+  content:"";
+  background:linear-gradient(135deg,transparent 40%,rgba(91,90,255,.09),rgba(57,220,239,.12));
+  pointer-events:none;
+}
+.caption-case-poster>span {
+  position:absolute;
+  z-index:1;
+  left:12px;
+  top:12px;
+  display:grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:50%;
+  background:rgba(0,0,0,.62);
+  color:#dce5e5;
+  font:600 9px/1 monospace;
+  pointer-events:none;
+  backdrop-filter:blur(8px);
+}
+.caption-case-poster strong {
+  position:relative;
+  z-index:1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+}
+.caption-case-poster small {
+  position:relative;
+  z-index:1;
+  margin-top:7px;
+  color:#64737a;
+  font:500 8px/1.4 monospace;
+  letter-spacing:.12em;
+}
+.caption-case-copy { padding:20px; }
+.caption-case-title small {
+  color:#647078;
+  font:500 8px/1.4 monospace;
+  letter-spacing:.14em;
+}
+.caption-case-title h5 {
+  margin:9px 0 0;
+  color:#e7e7de;
+  font-size:17px;
+  line-height:1.25;
+  letter-spacing:-.025em;
+}
+.caption-case-meta {
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:16px;
+}
+.caption-case-meta span {
+  padding:5px 7px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:999px;
+  color:#747e84;
+  font-size:8px;
+}
+.caption-case-copy>p {
+  margin:18px 0 0;
+  color:#8c959a;
+  font-size:10px;
+  line-height:1.85;
+}
+.caption-case details {
+  margin-top:18px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+.caption-case summary {
+  position:relative;
+  padding:16px 24px 0 0;
+  color:#a9b2b5;
+  font-size:9px;
+  font-weight:650;
+  cursor:pointer;
+  list-style:none;
+}
+.caption-case summary::-webkit-details-marker { display:none; }
+.caption-case summary::after {
+  position:absolute;
+  right:2px;
+  top:15px;
+  content:"+";
+  color:#62dce9;
+  font:400 16px/1 monospace;
+}
+.caption-case details[open] summary::after { content:"−"; }
+.caption-case-detail {
+  max-height:360px;
+  margin-top:16px;
+  overflow:auto;
+  padding:16px;
+  border-radius:12px;
+  background:rgba(255,255,255,.025);
+  scrollbar-width:thin;
+}
+.caption-case-detail strong {
+  display:block;
+  color:#c6cdce;
+  font-size:9px;
+  letter-spacing:.06em;
+}
+.caption-case-detail strong:not(:first-child) { margin-top:20px; }
+.caption-case-detail p {
+  margin:8px 0 0;
+  color:#7f898e;
+  font-size:9px;
+  line-height:1.95;
+}
+
 .spring-film { position:relative; display:grid; grid-template-columns:.72fr 1.28fr; min-height:560px; overflow:hidden; border-radius:30px; background:#e05b2c; color:#130b08; }
 .spring-film-copy { display:flex; flex-direction:column; justify-content:flex-end; padding:clamp(30px,4vw,64px); }
 .spring-film-copy h2 { margin:12px 0 0; font-size:clamp(48px,6vw,100px); line-height:.9; letter-spacing:-.06em; }
@@ -1560,6 +1759,9 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
   .hero-intro { max-width:500px; }
   .video-case-grid,.contact-layout { grid-template-columns:1fr; }
   .video-case-card.is-wide { grid-column:auto; width:100%; }
+  .caption-case-grid { grid-template-columns:1fr; }
+  .caption-casebook-heading { display:block; }
+  .caption-casebook-heading>p { margin-top:18px; }
   .spring-film { grid-template-columns:1fr; }
   .spring-film video { min-height:0; aspect-ratio:16/9; }
   .tool-lab-heading { display:block; }
@@ -1607,6 +1809,9 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
   .hyperspeed-hint { display:none; }
   .river-hint { display:none; }
   .video-case-grid { gap:50px; }
+  .caption-casebook { margin-top:36px; padding-top:30px; }
+  .caption-case-grid { margin-top:24px; }
+  .caption-case-copy { padding:17px; }
   .spring-film { min-height:0; border-radius:24px; }
   .spring-film-copy { padding:30px 24px; }
   .tool-lab-heading h2 { font-size:48px; }
