@@ -29,37 +29,6 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
 .glass-panel { background:rgba(6,9,12,.68); backdrop-filter:blur(18px) saturate(1.12); }
 .glass-card { background:rgba(9,12,15,.7); backdrop-filter:blur(14px) saturate(1.08); }
 
-.spatial-field {
-  position:fixed;
-  inset:0;
-  z-index:0;
-  overflow:hidden;
-  pointer-events:none;
-  background:
-    radial-gradient(circle at 75% 38%,rgba(23,91,103,.11),transparent 33%),
-    linear-gradient(180deg,#010305 0%,#020609 58%,#010304 100%);
-}
-.spatial-field canvas { position:absolute; inset:0; display:block; width:100%; height:100%; opacity:.94; }
-.spatial-field__wash {
-  position:absolute;
-  inset:0;
-  z-index:2;
-  background:
-    radial-gradient(ellipse at 55% 48%,transparent 0%,rgba(1,3,5,.08) 42%,rgba(1,3,5,.7) 100%),
-    linear-gradient(90deg,rgba(1,3,5,.72) 0%,rgba(1,3,5,.12) 42%,rgba(1,3,5,.08) 76%,rgba(1,3,5,.5) 100%);
-}
-.spatial-field__grid {
-  position:absolute;
-  inset:0;
-  z-index:3;
-  opacity:.12;
-  background-image:
-    linear-gradient(rgba(127,206,220,.12) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(127,206,220,.1) 1px,transparent 1px);
-  background-size:72px 72px;
-  mask-image:linear-gradient(180deg,transparent 0%,#000 44%,transparent 100%);
-}
-
 .hero-frame { background: radial-gradient(circle at 80% 25%, rgba(222,219,200,.08), transparent 32%), #000; }
 .ai-stage { user-select: none; pointer-events: none; filter: saturate(.72) contrast(1.06); }
 .astronaut-swarm { pointer-events:none; }

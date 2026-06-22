@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { useCallback, useState } from "react";
 import AmbientMusicButton from "./components/AmbientMusicButton";
+import Ferrofluid from "./components/Ferrofluid";
 import GlobalBorderGlow from "./components/GlobalBorderGlow";
 import ContactCard from "./components/ContactCard";
 import ExperienceCarousel from "./components/ExperienceCarousel";
@@ -32,7 +33,6 @@ import PillNav from "./components/PillNav";
 import ProjectCard, { type Project } from "./components/ProjectCard";
 import SectionLabel from "./components/SectionLabel";
 import SkillCard from "./components/SkillCard";
-import SpatialField from "./components/SpatialField";
 import ToolLab from "./components/ToolLab";
 import WordsPullUpMultiStyle from "./components/WordsPullUpMultiStyle";
 import { captionCases } from "./data/captionCases";
@@ -171,6 +171,8 @@ const mediaCases = [
   },
 ];
 
+const ferrofluidColors = ["#ffffff", "#3B82F6", "#06B6D4"];
+
 function Hero() {
   return (
     <section id="home" className="river-hero">
@@ -200,7 +202,7 @@ function Hero() {
           <a href="#contact" className="hero-cta hero-cta-secondary">联系合作</a>
         </div>
       </div>
-      <p className="hyperspeed-hint">MOVE TO EXPLORE THE FIELD</p>
+      <p className="hyperspeed-hint">MOVE TO SHAPE THE FLOW</p>
 
       <PillNav
         logo="/tf-logo.svg"
@@ -251,7 +253,26 @@ function App() {
     <>
       <GlobalBorderGlow />
       <AnimatePresence>{!loaded && <LoadingScreen onComplete={finishLoading} />}</AnimatePresence>
-      <SpatialField />
+      <Ferrofluid
+        className="site-ferrofluid"
+        dpr={0.8}
+        colors={ferrofluidColors}
+        backgroundColor="#010305"
+        speed={0.6}
+        scale={1.3}
+        turbulence={1}
+        fluidity={0.09}
+        rimWidth={0.2}
+        sharpness={3}
+        shimmer={0.9}
+        glow={2}
+        flowDirection="right"
+        opacity={0.94}
+        mouseInteraction
+        mouseStrength={1}
+        mouseRadius={0.3}
+        mouseDampening={0.15}
+      />
       <main className="site-content bg-noise overflow-hidden text-primary">
         <Hero />
 
