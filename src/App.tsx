@@ -24,17 +24,15 @@ import {
 } from "lucide-react";
 import { useCallback, useState } from "react";
 import AmbientMusicButton from "./components/AmbientMusicButton";
-import Ferrofluid from "./components/Ferrofluid";
-import Galaxy from "./components/Galaxy";
 import GlobalBorderGlow from "./components/GlobalBorderGlow";
 import ContactCard from "./components/ContactCard";
 import ExperienceCarousel from "./components/ExperienceCarousel";
 import LoadingScreen from "./components/LoadingScreen";
-import Hyperspeed from "./components/Hyperspeed";
 import PillNav from "./components/PillNav";
 import ProjectCard, { type Project } from "./components/ProjectCard";
 import SectionLabel from "./components/SectionLabel";
 import SkillCard from "./components/SkillCard";
+import SpatialField from "./components/SpatialField";
 import ToolLab from "./components/ToolLab";
 import WordsPullUpMultiStyle from "./components/WordsPullUpMultiStyle";
 import { captionCases } from "./data/captionCases";
@@ -173,34 +171,9 @@ const mediaCases = [
   },
 ];
 
-const ferrofluidColors = ["#f8fcff", "#45c8f0", "#8ce9dc"];
-const hyperspeedOptions = {
-  length: 400,
-  roadWidth: 10,
-  islandWidth: 2,
-  lanesPerRoad: 3,
-  fov: 90,
-  fovSpeedUp: 150,
-  speedUp: 2,
-  totalSideLightSticks: 20,
-  lightPairsPerRoadWay: 40,
-  colors: {
-    roadColor: 526344,
-    islandColor: 657930,
-    background: 0,
-    shoulderLines: 1250072,
-    brokenLines: 1250072,
-    leftCars: [14177983, 6770850, 12732332],
-    rightCars: [242627, 941733, 3294549],
-    sticks: 242627,
-  },
-};
-
 function Hero() {
   return (
     <section id="home" className="river-hero">
-      <Hyperspeed effectOptions={hyperspeedOptions} />
-      <Galaxy />
       <div className="hero-scrim" />
       <header className="hero-topbar">
         <a href="#home" className="hero-signature">
@@ -227,7 +200,7 @@ function Hero() {
           <a href="#contact" className="hero-cta hero-cta-secondary">联系合作</a>
         </div>
       </div>
-      <p className="hyperspeed-hint">PRESS &amp; HOLD TO ACCELERATE</p>
+      <p className="hyperspeed-hint">MOVE TO EXPLORE THE FIELD</p>
 
       <PillNav
         logo="/tf-logo.svg"
@@ -278,25 +251,7 @@ function App() {
     <>
       <GlobalBorderGlow />
       <AnimatePresence>{!loaded && <LoadingScreen onComplete={finishLoading} />}</AnimatePresence>
-      <Ferrofluid
-        className="site-ferrofluid"
-        dpr={0.85}
-        colors={ferrofluidColors}
-        backgroundColor="#020407"
-        speed={0.46}
-        scale={1.5}
-        turbulence={1.08}
-        fluidity={0.12}
-        rimWidth={0.22}
-        sharpness={2.9}
-        shimmer={1.12}
-        glow={1.95}
-        flowDirection="down"
-        opacity={0.94}
-        mouseInteraction
-        mouseStrength={1.15}
-        mouseRadius={0.28}
-      />
+      <SpatialField />
       <main className="site-content bg-noise overflow-hidden text-primary">
         <Hero />
 
