@@ -814,7 +814,7 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
   position:absolute;
   inset:0;
   content:"";
-  background:linear-gradient(135deg,transparent 40%,rgba(91,90,255,.09),rgba(57,220,239,.12));
+  background:linear-gradient(180deg,transparent 48%,rgba(1,4,7,.18) 68%,rgba(1,4,7,.82) 100%);
   pointer-events:none;
 }
 .caption-case-poster>span {
@@ -841,12 +841,14 @@ a:focus-visible { outline: 2px solid #DEDBC8; outline-offset: 4px; }
   align-items:center;
   gap:8px;
   font-size:11px;
+  color:#f2f5f5;
+  text-shadow:0 2px 12px rgba(0,0,0,.8);
 }
 .caption-case-poster small {
   position:relative;
   z-index:1;
   margin-top:7px;
-  color:#64737a;
+  color:rgba(226,236,238,.65);
   font:500 8px/1.4 monospace;
   letter-spacing:.12em;
 }

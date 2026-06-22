@@ -20,6 +20,7 @@ export type CaptionCase = {
   title: string;
   duration: string;
   video: string;
+  poster: string;
   meta: string[];
   summary: string;
   definitions: string;
@@ -39,7 +40,7 @@ function CaptionVideo({ item, index }: { item: CaptionCase; index: number }) {
 
   return (
     <div className={`caption-case-video ${started ? "is-started" : ""}`}>
-      <video ref={videoRef} controls={started} preload="none" playsInline>
+      <video ref={videoRef} controls={started} preload="metadata" poster={item.poster} playsInline>
         <source src={item.video} type="video/mp4" />
       </video>
       {!started && (
