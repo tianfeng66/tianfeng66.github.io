@@ -56,7 +56,7 @@ const projects: Project[] = [
   },
   {
     number: "02",
-    title: "腾讯音画一致性 Caption 视频描述项目",
+    title: "快手可灵Caption视频描述项目",
     period: "2025.10 - 2026.05",
     role: "AI 数据训练 / 多模态质检实习生",
     icon: "file",
