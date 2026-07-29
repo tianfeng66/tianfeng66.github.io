@@ -57,8 +57,8 @@ const projects: Project[] = [
   {
     number: "02",
     title: "快手可灵Caption视频描述项目",
-    period: "2025.10 - 2026.05",
-    role: "AI 数据训练 / 多模态质检实习生",
+    period: "2025.10 至今",
+    role: "美学评测/Caption 描述/项目助理",
     icon: "file",
     tags: ["Caption", "视频理解", "音画一致", "时间轴", "AIGC 标签"],
     description: "参与视频 Caption 标注与质检，覆盖影视剧、综艺、动漫、短视频和 AIGC。对画面内容、背景音、人物动作、镜头语言和情绪氛围进行细粒度描述与对齐。",
