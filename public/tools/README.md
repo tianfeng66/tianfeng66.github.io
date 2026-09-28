@@ -10,6 +10,7 @@
 | 素材与设计 | 小语种检查 | macOS 13+ | 检测图片、PDF、Word 等文件中的小语种文字并分类导出 | [下载与说明](https://github.com/tianfeng66/minor-language-checker) |
 | 视频与 AI | YouTube 下载 + 抽帧 | macOS | 下载视频并按间隔、帧数、帧率或关键帧提取画面 | [项目与说明](https://github.com/tianfeng66/youtube-downloader-frame-extractor) |
 | 视频与 AI | AI 名人介绍视频生成 | Codex 技能环境 | 生成经事实核验的旁白、分段视频提示词和参考图制作方案 | [安装与说明](https://github.com/tianfeng66/ai-mingren-video-generation) |
+| 视频与 AI | 动漫人物传记视频工作流 | 扣子工作流 | 生成动漫传记视频的分镜、画面、旁白、字幕与拼接结果；草稿版需导入后调试 | [导入与说明](https://github.com/tianfeng66/coze-anime-biography-workflow) |
 | macOS 效率 | 秒搜 | macOS 14+ | 使用 Spotlight 索引快速按文件名搜索 | [下载与说明](https://github.com/tianfeng66/miaosou) |
 | macOS 效率 | 轻压 QingYa | macOS 13+ | 压缩、解压、预览压缩包并识别中文文件名编码 | [下载与说明](https://github.com/tianfeng66/qingya-mac-archiver) |
 
@@ -18,6 +19,7 @@
 - 浏览器工具在本机处理文件，按各项目 README 的浏览器要求打开；图片工具箱会请求所选文件夹的读写权限，长图切分工具将结果写入单独目录。
 - macOS 应用请从各项目的 Releases 或 README 下载安装。具体系统要求与已知限制以原项目说明为准。
 - AI 名人介绍视频生成是技能包，不是可独立打开的应用；安装方式见项目 README。
+- 动漫人物传记视频工作流是扣子的草稿导入包，需要下载 ZIP 并在扣子中导入、检查节点与额度；不是直接在网页上运行的工具。
 - 小语种检查使用 macOS 本地识别能力；Apple 芯片 Mac 解压即用，Intel Mac 首次启动需要联网下载依赖。
 - 这里是目录，不复制各项目源码。更新和问题反馈请到对应项目仓库。
 
