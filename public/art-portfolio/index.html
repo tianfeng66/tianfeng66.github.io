@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172420">
+  <meta name="description" content="田丰的美术作品集，收录工笔、彩铅、水彩、素描与钢笔创意作品。">
+  <title>田丰 | 美术作品集</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23172420'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%23ded9c8' stroke-width='2'/%3E%3Cpath d='M23 39c13-2 20-10 19-18-8 3-14 9-19 18Z' fill='%23ded9c8'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=14">
+  <link rel="stylesheet" href="preview.css?v=2">
+  <script src="artworks.js" defer></script>
+  <script src="site.js?v=15" defer></script>
+  <script src="preview.js" defer></script>
+  <script src="music.js?v=2" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#works">跳到作品</a>
+  <div class="falling-scene" id="falling-scene" aria-hidden="true"></div>
+  <div class="interior-florals" id="interior-florals" aria-hidden="true">
+    <div class="interior-floral interior-floral-left" id="interior-floral-left"><img src="art/floral-left.png" alt=""></div>
+    <div class="interior-floral interior-floral-right" id="interior-floral-right"><img src="art/floral-right.png" alt=""></div>
+  </div>
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="田丰美术作品集，返回顶部"><span class="brand-mark">田</span><span>田丰<span class="brand-separator">/</span><span class="brand-en">TIAN FENG</span></span></a>
+      <nav class="top-nav" aria-label="主导航"><a href="#works">作品</a><a href="#process">绘制过程</a><a href="#about">关于</a></nav>
+      <button class="music-control" id="music-control" type="button" aria-label="播放音乐" aria-pressed="false" disabled><span class="music-control-icon" id="music-control-icon" aria-hidden="true">▶</span><span class="music-control-label" id="music-control-label">播放音乐</span></button>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-stage" id="hero-stage">
+          <div class="hero-background" aria-hidden="true">
+            <video class="hero-video" id="hero-video" autoplay muted loop playsinline preload="metadata" poster="art/floral-video-poster.jpg"><source src="art/floral-background.mp4" type="video/mp4"></video>
+            <div class="hero-floral hero-floral-left" id="hero-floral-left"><img src="art/floral-left.png" alt="" fetchpriority="high"></div>
+            <div class="hero-floral hero-floral-right" id="hero-floral-right"><img src="art/floral-right.png" alt="" fetchpriority="high"></div>
+          </div>
+          <button class="hero-door" id="hero-door" type="button" aria-label="开启作品之门，查看作品轮播" aria-controls="hero-carousel">
+            <span class="hero-door-reveal" aria-hidden="true"></span>
+            <span class="hero-door-leaf" aria-hidden="true"></span>
+          </button>
+          <div class="hero-copy">
+            <p class="hero-overline">绘画作品集 <span>TIAN FENG / ART PORTFOLIO</span></p>
+            <h1 id="hero-title">笔下有形，<br><em>纸上有境。</em></h1>
+            <p class="hero-description">以工笔为起点，沿着色彩与线条，记录对自然和日常的观察。</p>
+            <a class="hero-link" href="#works"><span>浏览作品</span><span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+        <aside class="hero-technique" aria-labelledby="hero-technique-title"><span class="hero-technique-kicker">技法笔记 / 01</span><h2 id="hero-technique-title">工笔</h2><p>工笔，以线为骨，以薄彩为魂。不急于落笔成画，待一层色彩干透，再染下一层。于反复晕染之间，藏草木风月的温柔。不求酣畅挥洒，而在精微处见天地，于沉静细腻里，捕捉万物含蓄清雅的意境。</p></aside>
+        <figure class="hero-art">
+          <div class="hero-carousel" id="hero-carousel" tabindex="-1" aria-roledescription="轮播图" aria-label="首页作品轮播">
+            <div class="hero-slide is-active" aria-hidden="false"><img src="art/hero-scroll.png" width="2172" height="724" alt="工笔人物线描长卷，画有仙人仪仗与祥云" fetchpriority="high"></div>
+            <div class="hero-slide" aria-hidden="true"><img src="art/gongbi-63.webp" width="1592" height="618" alt="工笔 50"></div>
+            <div class="hero-slide" aria-hidden="true"><img src="art/gongbi-30.webp" width="2691" height="1080" alt="工笔 16"></div>
+            <div class="hero-slide" aria-hidden="true"><img src="art/ink-01.webp" width="1440" height="1080" alt="钢笔创意 01"></div>
+            <button class="hero-arrow hero-arrow-prev" type="button" id="hero-prev" aria-label="上一张作品">←</button>
+            <button class="hero-arrow hero-arrow-next" type="button" id="hero-next" aria-label="下一张作品">→</button>
+          </div>
+          <figcaption class="hero-caption"><span id="hero-caption-title">工笔长卷 · 人物线描</span><span class="hero-caption-actions"><span id="hero-slide-count">01 / 04</span><span class="hero-dots" id="hero-dots" aria-label="选择轮播作品"></span><button type="button" id="hero-play-toggle" aria-label="暂停轮播">暂停</button></span></figcaption>
+        </figure>
+      </section>
+
+      <section class="works-section" id="works" aria-labelledby="works-title">
+        <div class="section-intro">
+          <h2 id="works-title">作品</h2>
+          <p>在不同媒介之间，观察线条、设色与留白。</p>
+        </div>
+        <div class="filter-bar" role="group" aria-label="按媒介查看作品">
+          <button type="button" class="filter active" data-filter="精选" aria-pressed="true">精选 <span>20</span></button>
+          <button type="button" class="filter" data-filter="工笔" aria-pressed="false">工笔 <span>55</span></button>
+          <button type="button" class="filter" data-filter="水彩" aria-pressed="false">水彩 <span>04</span></button>
+          <button type="button" class="filter" data-filter="素描" aria-pressed="false">素描 <span>02</span></button>
+          <button type="button" class="filter" data-filter="彩铅" aria-pressed="false">彩铅 <span>06</span></button>
+          <button type="button" class="filter" data-filter="钢笔创意" aria-pressed="false">钢笔创意 <span>03</span></button>
+          <button type="button" class="filter" data-filter="全部" aria-pressed="false">全部 <span>70</span></button>
+        </div>
+        <div class="technique-description" id="technique-description" hidden><span id="technique-description-name"></span><p id="technique-description-copy"></p></div>
+        <div class="gallery-meta"><span id="gallery-heading">精选作品</span><span id="gallery-count">20 件</span></div>
+        <div class="gallery" id="gallery" aria-live="polite"></div>
+      </section>
+
+      <section class="process-section" id="process" aria-labelledby="process-title">
+        <div class="process-intro"><h2 id="process-title">工笔画绘制过程</h2><p>从线稿到设色，四组作品并置呈现。点开图片可查看细节。</p></div>
+        <div class="process-gallery" id="process-gallery"></div>
+      </section>
+
+      <section class="about-section" id="about" aria-labelledby="about-title">
+        <div class="about-art"><img src="art/gongbi-52.webp" alt="工笔花鸟画，枝叶与鸟" loading="lazy"></div>
+        <div class="about-copy"><span class="about-number">05 / 05</span><h2 id="about-title">关于作品</h2><p>工笔描花鸟情致，水彩晕山水烟岚，素描塑静物形骸，彩铅染人间烟火，钢笔刻方寸创意。从童年到成年，一笔一划，皆是经年沉淀的绘画注脚。</p><a href="#works">返回作品 <span aria-hidden="true">↑</span></a></div>
+      </section>
+    </main>
+    <footer class="site-footer"><span>田丰 · 美术作品集</span><span>TIAN FENG / ART PORTFOLIO</span></footer>
+  </div>
+  <audio id="background-audio" src="art/background-music.mp3" preload="none" loop></audio>
+
+  <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-labelledby="viewer-title">
+    <div class="viewer-backdrop" data-close></div>
+    <div class="viewer-panel">
+      <div class="viewer-top"><span class="viewer-brand">田丰 / 作品</span><button type="button" class="viewer-close" id="viewer-close" aria-label="关闭作品">关闭 <span aria-hidden="true">×</span></button></div>
+      <div class="viewer-content"><button type="button" class="viewer-arrow viewer-prev" id="viewer-prev" aria-label="上一件作品">←</button><div class="viewer-image-wrap"><img id="viewer-image" alt=""></div><button type="button" class="viewer-arrow viewer-next" id="viewer-next" aria-label="下一件作品">→</button></div>
+      <div class="viewer-bottom"><div><span id="viewer-category"></span><h2 id="viewer-title"></h2></div><div class="viewer-actions"><span id="viewer-counter"></span><button type="button" id="viewer-zoom" aria-pressed="false">放大细节</button><button type="button" id="copy-link">复制作品链接</button></div></div>
+    </div>
+  </div>
+</body>
+</html>
