@@ -326,7 +326,7 @@ function App() {
             <h2>作品不是概念，<br />而是解决问题的过程。</h2>
             <p>从 AI 工作流、RPA 自动化到产品方案与视觉内容创作，这里集中展示我在工具落地、效率提升和内容表达上的实践。</p>
           </div>
-          <ToolLab />
+          <ToolLab /> <div className="mt-10"><a href="/tools/" className="inline-flex items-center gap-3 rounded-full border border-primary/20 px-6 py-3 text-sm text-primary transition-colors hover:border-primary/50">浏览工具导航 <ArrowRight size={16} /></a></div>
         </section>
 
         <section id="cases" className="mx-auto max-w-page px-4 py-24 md:px-6 md:py-32">
