@@ -10,9 +10,9 @@
     :root { color-scheme: dark; font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif; background: #090d0f; color: #f4f2ec; }
     * { box-sizing: border-box; }
     body { margin: 0; min-width: 320px; }
-    .ballpit-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 75% 17%, #183239 0, transparent 42%), radial-gradient(ellipse at 12% 85%, #1d2338 0, transparent 45%), #090d0f; }
-    .ballpit-bg canvas { display: block; width: 100%; height: 100%; }
-    .ballpit-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,13,15,.74), rgba(9,13,15,.43) 53%, rgba(9,13,15,.31)); }
+    .galaxy-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 72% 20%, #142035 0, transparent 46%), radial-gradient(ellipse at 12% 84%, #10272c 0, transparent 48%), #080d15; }
+    .galaxy-bg canvas { display: block; width: 100%; height: 100%; }
+    .galaxy-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,13,21,.63), rgba(8,13,21,.25) 55%, rgba(8,13,21,.18)); }
     a { color: inherit; }
     a:focus-visible { outline: 2px solid #84ddd3; outline-offset: 4px; }
     .wrap { position: relative; z-index: 1; width: min(1160px, calc(100% - 44px)); margin: auto; }
@@ -50,11 +50,10 @@
     footer a { color: #b6e9dd; text-decoration: none; }
     @media (max-width: 720px) { .section-head { display: block; } .section-head p { margin-top: 8px; } .grid { grid-template-columns: 1fr; } article { min-height: 230px; } }
     @media (max-width: 500px) { .wrap { width: min(100% - 32px, 1160px); } .hero { padding: 62px 0 50px; } footer { flex-direction: column; } }
-    @media (prefers-reduced-motion: reduce) { .ballpit-bg canvas { display: none; } }
   </style>
 </head>
 <body>
-  <div class="ballpit-bg" aria-hidden="true"><canvas id="ballpit-canvas"></canvas></div>
+  <div class="galaxy-bg" id="galaxy-bg" aria-hidden="true"></div>
   <div class="wrap">
     <header><a class="brand" href="/">田丰 <span>TIAN FENG</span></a><a class="back" href="/">← 返回作品集</a></header>
     <main>
@@ -94,188 +93,280 @@
     <footer><span>田丰 · 工具导航</span><a href="https://github.com/tianfeng66">查看全部 GitHub 项目 ↗</a></footer>
   </div>
   <script type="module">
-    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js';
+import { Renderer, Program, Mesh, Triangle } from 'https://cdn.jsdelivr.net/npm/ogl@1.0.11/+esm';
 
-    const canvas = document.getElementById('ballpit-canvas');
-    if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      try {
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
-        renderer.outputColorSpace = THREE.SRGBColorSpace;
-        renderer.toneMapping = THREE.ACESFilmicToneMapping;
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(52, 1, .1, 100);
-        camera.position.z = 20;
-        scene.add(new THREE.AmbientLight(0xffffff, 2.3));
-        const key = new THREE.PointLight(0xffffff, 95);
-        key.position.set(-8, 10, 16);
-        scene.add(key);
-        const fill = new THREE.PointLight(0x80d9d3, 65);
-        fill.position.set(9, -6, 7);
-        scene.add(fill);
+const vertexShader = `
+attribute vec2 uv;
+attribute vec2 position;
 
-        const isSmall = window.matchMedia('(max-width: 720px)').matches;
-        const count = isSmall ? 32 : 85;
-        const gravity = .7;
-        const friction = .8;
-        const wallBounce = .95;
-        const maxVelocity = .15;
-        const geometry = new THREE.SphereGeometry(1, 20, 14);
-        const material = new THREE.MeshPhysicalMaterial({
-          metalness: .18, roughness: .21, clearcoat: 1, clearcoatRoughness: .12
-        });
-        const mesh = new THREE.InstancedMesh(geometry, material, count);
-        mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
-        mesh.frustumCulled = false;
-        const colors = [0x74ead8, 0x5aa8d9, 0xb49af4, 0xf4bb83, 0xe889a8];
-        const colorStops = colors.map(value => new THREE.Color(value));
-        const color = new THREE.Color();
-        const dummy = new THREE.Object3D();
-        const balls = Array.from({ length: count }, (_, index) => {
-          const t = index / Math.max(1, count - 1) * (colorStops.length - 1);
-          const start = Math.floor(t);
-          color.copy(colorStops[start]).lerp(colorStops[Math.min(start + 1, colorStops.length - 1)], t - start);
-          mesh.setColorAt(index, color);
-          return {
-            x: 0, y: 0, z: (Math.random() - .5) * 3,
-            vx: 0, vy: 0, vz: 0,
-            radius: index === 0 ? .68 : .34 + Math.random() * .34
-          };
-        });
-        mesh.instanceColor.needsUpdate = true;
-        scene.add(mesh);
+varying vec2 vUv;
 
-        let maxX = 10;
-        let maxY = 10;
-        let pointerActive = false;
-        let pointerX = 0;
-        let pointerY = 0;
-        let lastTime = 0;
-        let frameId = 0;
+void main() {
+  vUv = uv;
+  gl_Position = vec4(position, 0, 1);
+}
+`;
 
-        function resize() {
-          const width = window.innerWidth;
-          const height = window.innerHeight;
-          camera.aspect = width / height;
-          camera.updateProjectionMatrix();
-          maxY = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
-          maxX = maxY * camera.aspect;
-          renderer.setSize(width, height, false);
-          balls.forEach((ball, index) => {
-            if (index === 0) return;
-            if (!ball.x && !ball.y) {
-              ball.x = (Math.random() * 2 - 1) * maxX;
-              ball.y = (Math.random() * 2 - 1) * maxY;
-            } else {
-              ball.x = THREE.MathUtils.clamp(ball.x, -maxX + ball.radius, maxX - ball.radius);
-              ball.y = THREE.MathUtils.clamp(ball.y, -maxY + ball.radius, maxY - ball.radius);
-            }
-          });
-        }
+const fragmentShader = `
+precision highp float;
 
-        function onPointerMove(event) {
-          pointerX = (event.clientX / window.innerWidth * 2 - 1) * maxX;
-          pointerY = (1 - event.clientY / window.innerHeight * 2) * maxY;
-          pointerActive = event.pointerType !== 'touch';
-        }
-        window.addEventListener('pointermove', onPointerMove, { passive: true });
-        window.addEventListener('pointerleave', () => { pointerActive = false; });
-        window.addEventListener('resize', resize);
-        resize();
+uniform float uTime;
+uniform vec3 uResolution;
+uniform vec2 uFocal;
+uniform vec2 uRotation;
+uniform float uStarSpeed;
+uniform float uDensity;
+uniform float uHueShift;
+uniform float uSpeed;
+uniform vec2 uMouse;
+uniform float uGlowIntensity;
+uniform float uSaturation;
+uniform bool uMouseRepulsion;
+uniform float uTwinkleIntensity;
+uniform float uRotationSpeed;
+uniform float uRepulsionStrength;
+uniform float uMouseActiveFactor;
+uniform float uAutoCenterRepulsion;
+uniform bool uTransparent;
+uniform float uLightMode;
 
-        function animate(time) {
-          frameId = requestAnimationFrame(animate);
-          if (document.hidden) { lastTime = time; return; }
-          const delta = Math.min((time - (lastTime || time)) / 1000, .033);
-          lastTime = time;
-          const steps = Math.min(delta * 60, 2);
-          const drag = Math.pow(friction, steps);
-          const cursor = balls[0];
-          cursor.x += ((pointerActive ? pointerX : maxX + 3) - cursor.x) * .18;
-          cursor.y += ((pointerActive ? pointerY : maxY + 3) - cursor.y) * .18;
-          cursor.z = 0;
+varying vec2 vUv;
 
-          for (let i = 1; i < count; i++) {
-            const ball = balls[i];
-            ball.vy -= delta * gravity * ball.radius;
-            ball.vx *= drag;
-            ball.vy *= drag;
-            ball.vz *= drag;
-            const speed = Math.hypot(ball.vx, ball.vy, ball.vz);
-            if (speed > maxVelocity) {
-              const scale = maxVelocity / speed;
-              ball.vx *= scale;
-              ball.vy *= scale;
-              ball.vz *= scale;
-            }
-            ball.x += ball.vx * steps;
-            ball.y += ball.vy * steps;
-            ball.z += ball.vz * steps;
-            if (ball.x + ball.radius > maxX || ball.x - ball.radius < -maxX) {
-              ball.x = THREE.MathUtils.clamp(ball.x, -maxX + ball.radius, maxX - ball.radius);
-              ball.vx *= -wallBounce;
-            }
-            if (ball.y - ball.radius < -maxY) {
-              ball.y = -maxY + ball.radius;
-              ball.vy *= -wallBounce;
-            }
-            if (ball.y + ball.radius > maxY) {
-              ball.y = maxY - ball.radius;
-              ball.vy *= -wallBounce;
-            }
-            if (Math.abs(ball.z) > 2) {
-              ball.z = THREE.MathUtils.clamp(ball.z, -2, 2);
-              ball.vz *= -wallBounce;
-            }
-          }
+#define NUM_LAYER 4.0
+#define STAR_COLOR_CUTOFF 0.2
+#define MAT45 mat2(0.7071, -0.7071, 0.7071, 0.7071)
+#define PERIOD 3.0
 
-          for (let i = 1; i < count; i++) {
-            const a = balls[i];
-            for (let j = pointerActive ? 0 : 1; j < i; j++) {
-              const b = balls[j];
-              let dx = a.x - b.x;
-              let dy = a.y - b.y;
-              let dz = a.z - b.z;
-              let distance = Math.hypot(dx, dy, dz);
-              const minDistance = a.radius + b.radius;
-              if (distance >= minDistance) continue;
-              if (distance < .0001) { dx = .001; distance = .001; }
-              const push = (minDistance - distance) / distance * (j === 0 ? 1 : .5);
-              a.x += dx * push;
-              a.y += dy * push;
-              a.z += dz * push;
-              a.vx += dx * .0015;
-              a.vy += dy * .0015;
-              a.vz += dz * .0015;
-              if (j !== 0) {
-                b.x -= dx * push;
-                b.y -= dy * push;
-                b.z -= dz * push;
-              }
-            }
-          }
+float Hash21(vec2 p) {
+  p = fract(p * vec2(123.34, 456.21));
+  p += dot(p, p + 45.32);
+  return fract(p.x * p.y);
+}
 
-          balls.forEach((ball, index) => {
-            dummy.position.set(ball.x, ball.y, ball.z);
-            dummy.scale.setScalar(index === 0 && !pointerActive ? 0 : ball.radius);
-            dummy.updateMatrix();
-            mesh.setMatrixAt(index, dummy.matrix);
-          });
-          mesh.instanceMatrix.needsUpdate = true;
-          renderer.render(scene, camera);
-        }
-        frameId = requestAnimationFrame(animate);
-        window.addEventListener('pagehide', () => {
-          cancelAnimationFrame(frameId);
-          geometry.dispose();
-          material.dispose();
-          renderer.dispose();
-        }, { once: true });
-      } catch (error) {
-        canvas.remove();
-        console.warn('Ballpit background could not start', error);
-      }
+float tri(float x) {
+  return abs(fract(x) * 2.0 - 1.0);
+}
+
+float tris(float x) {
+  float t = fract(x);
+  return 1.0 - smoothstep(0.0, 1.0, abs(2.0 * t - 1.0));
+}
+
+float trisn(float x) {
+  float t = fract(x);
+  return 2.0 * (1.0 - smoothstep(0.0, 1.0, abs(2.0 * t - 1.0))) - 1.0;
+}
+
+vec3 hsv2rgb(vec3 c) {
+  vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
+  vec3 p = abs(fract(c.xxx + K.xyz) * 6.0 - K.www);
+  return c.z * mix(K.xxx, clamp(p - K.xxx, 0.0, 1.0), c.y);
+}
+
+float Star(vec2 uv, float flare) {
+  float d = length(uv);
+  float m = (0.05 * uGlowIntensity) / d;
+  float rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
+  m += rays * flare * uGlowIntensity;
+  uv *= MAT45;
+  rays = smoothstep(0.0, 1.0, 1.0 - abs(uv.x * uv.y * 1000.0));
+  m += rays * 0.3 * flare * uGlowIntensity;
+  m *= smoothstep(1.0, 0.2, d);
+  return m;
+}
+
+vec3 StarLayer(vec2 uv) {
+  vec3 col = vec3(0.0);
+
+  vec2 gv = fract(uv) - 0.5; 
+  vec2 id = floor(uv);
+
+  for (int y = -1; y <= 1; y++) {
+    for (int x = -1; x <= 1; x++) {
+      vec2 offset = vec2(float(x), float(y));
+      vec2 si = id + vec2(float(x), float(y));
+      float seed = Hash21(si);
+      float size = fract(seed * 345.32);
+      float glossLocal = tri(uStarSpeed / (PERIOD * seed + 1.0));
+      float flareSize = smoothstep(0.9, 1.0, size) * glossLocal;
+
+      float red = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 1.0)) + STAR_COLOR_CUTOFF;
+      float blu = smoothstep(STAR_COLOR_CUTOFF, 1.0, Hash21(si + 3.0)) + STAR_COLOR_CUTOFF;
+      float grn = min(red, blu) * seed;
+      vec3 base = vec3(red, grn, blu);
+      
+      float hue = atan(base.g - base.r, base.b - base.r) / (2.0 * 3.14159) + 0.5;
+      hue = fract(hue + uHueShift / 360.0);
+      float sat = length(base - vec3(dot(base, vec3(0.299, 0.587, 0.114)))) * uSaturation;
+      float val = max(max(base.r, base.g), base.b);
+      base = hsv2rgb(vec3(hue, sat, val));
+
+      vec2 pad = vec2(tris(seed * 34.0 + uTime * uSpeed / 10.0), tris(seed * 38.0 + uTime * uSpeed / 30.0)) - 0.5;
+
+      float star = Star(gv - offset - pad, flareSize);
+      vec3 color = base;
+
+      float twinkle = trisn(uTime * uSpeed + seed * 6.2831) * 0.5 + 1.0;
+      twinkle = mix(1.0, twinkle, uTwinkleIntensity);
+      star *= twinkle;
+      
+      col += star * size * color;
     }
+  }
+
+  return col;
+}
+
+void main() {
+  vec2 focalPx = uFocal * uResolution.xy;
+  vec2 uv = (vUv * uResolution.xy - focalPx) / uResolution.y;
+
+  vec2 mouseNorm = uMouse - vec2(0.5);
+  
+  if (uAutoCenterRepulsion > 0.0) {
+    vec2 centerUV = vec2(0.0, 0.0);
+    float centerDist = length(uv - centerUV);
+    vec2 repulsion = normalize(uv - centerUV) * (uAutoCenterRepulsion / (centerDist + 0.1));
+    uv += repulsion * 0.05;
+  } else if (uMouseRepulsion) {
+    vec2 mousePosUV = (uMouse * uResolution.xy - focalPx) / uResolution.y;
+    float mouseDist = length(uv - mousePosUV);
+    vec2 repulsion = normalize(uv - mousePosUV) * (uRepulsionStrength / (mouseDist + 0.1));
+    uv += repulsion * 0.05 * uMouseActiveFactor;
+  } else {
+    vec2 mouseOffset = mouseNorm * 0.1 * uMouseActiveFactor;
+    uv += mouseOffset;
+  }
+
+  float autoRotAngle = uTime * uRotationSpeed;
+  mat2 autoRot = mat2(cos(autoRotAngle), -sin(autoRotAngle), sin(autoRotAngle), cos(autoRotAngle));
+  uv = autoRot * uv;
+
+  uv = mat2(uRotation.x, -uRotation.y, uRotation.y, uRotation.x) * uv;
+
+  vec3 col = vec3(0.0);
+
+  for (float i = 0.0; i < 1.0; i += 1.0 / NUM_LAYER) {
+    float depth = fract(i + uStarSpeed * uSpeed);
+    float scale = mix(20.0 * uDensity, 0.5 * uDensity, depth);
+    float fade = depth * smoothstep(1.0, 0.9, depth);
+    col += StarLayer(uv * scale + i * 453.32) * fade;
+  }
+
+  if (uLightMode > 0.5) {
+    float energy = max(max(col.r, col.g), col.b);
+    float coverage = clamp(smoothstep(0.0, 0.42, energy) * 0.92, 0.0, 0.92);
+    vec3 ink = clamp(col * 0.48, 0.0, 0.82);
+    gl_FragColor = vec4(mix(vec3(1.0), ink, coverage), 1.0);
+  } else if (uTransparent) {
+    float alpha = length(col);
+    alpha = smoothstep(0.0, 0.3, alpha);
+    alpha = min(alpha, 1.0);
+    gl_FragColor = vec4(col, alpha);
+  } else {
+    gl_FragColor = vec4(col, 1.0);
+  }
+}
+`;
+
+const container = document.getElementById('galaxy-bg');
+if (container) {
+  try {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const renderer = new Renderer({ alpha: true, premultipliedAlpha: false });
+    const gl = renderer.gl;
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.clearColor(0, 0, 0, 0);
+
+    const uniforms = {
+      uTime: { value: 0 },
+      uResolution: { value: new Float32Array([1, 1, 1]) },
+      uFocal: { value: new Float32Array([0.5, 0.5]) },
+      uRotation: { value: new Float32Array([1, 0]) },
+      uStarSpeed: { value: 0.5 },
+      uDensity: { value: 1.5 },
+      uHueShift: { value: 240 },
+      uSpeed: { value: 1 },
+      uMouse: { value: new Float32Array([0.5, 0.5]) },
+      uGlowIntensity: { value: 0.5 },
+      uSaturation: { value: 0.8 },
+      uMouseRepulsion: { value: true },
+      uTwinkleIntensity: { value: 0.3 },
+      uRotationSpeed: { value: 0.1 },
+      uRepulsionStrength: { value: 2 },
+      uMouseActiveFactor: { value: 0 },
+      uAutoCenterRepulsion: { value: 0 },
+      uTransparent: { value: true },
+      uLightMode: { value: 0 }
+    };
+    const program = new Program(gl, {
+      vertex: vertexShader,
+      fragment: fragmentShader,
+      uniforms
+    });
+    const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
+    gl.canvas.setAttribute('aria-hidden', 'true');
+    container.appendChild(gl.canvas);
+
+    function resize() {
+      const scale = window.innerWidth <= 720 ? 0.65 : 1;
+      const width = Math.max(1, Math.round(container.clientWidth * scale));
+      const height = Math.max(1, Math.round(container.clientHeight * scale));
+      renderer.setSize(width, height);
+      gl.canvas.style.width = '100%';
+      gl.canvas.style.height = '100%';
+      uniforms.uResolution.value[0] = gl.canvas.width;
+      uniforms.uResolution.value[1] = gl.canvas.height;
+      uniforms.uResolution.value[2] = gl.canvas.width / gl.canvas.height;
+      renderer.render({ scene: mesh });
+    }
+
+    let targetX = 0.5;
+    let targetY = 0.5;
+    let targetActive = 0;
+    let smoothActive = 0;
+    function onPointerMove(event) {
+      if (event.pointerType === 'touch') return;
+      targetX = event.clientX / window.innerWidth;
+      targetY = 1 - event.clientY / window.innerHeight;
+      targetActive = 1;
+    }
+    function onPointerLeave() { targetActive = 0; }
+    window.addEventListener('resize', resize, { passive: true });
+    if (!reduceMotion) {
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+      window.addEventListener('pointerleave', onPointerLeave);
+    }
+    resize();
+
+    let animationId = 0;
+    function update(time) {
+      animationId = requestAnimationFrame(update);
+      if (document.hidden) return;
+      const seconds = time * 0.001;
+      uniforms.uTime.value = seconds;
+      uniforms.uStarSpeed.value = seconds * 0.5 / 10;
+      uniforms.uMouse.value[0] += (targetX - uniforms.uMouse.value[0]) * 0.05;
+      uniforms.uMouse.value[1] += (targetY - uniforms.uMouse.value[1]) * 0.05;
+      smoothActive += (targetActive - smoothActive) * 0.05;
+      uniforms.uMouseActiveFactor.value = smoothActive;
+      renderer.render({ scene: mesh });
+    }
+    if (!reduceMotion) animationId = requestAnimationFrame(update);
+    window.addEventListener('pagehide', () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('pointermove', onPointerMove);
+      window.removeEventListener('pointerleave', onPointerLeave);
+      gl.getExtension('WEBGL_lose_context')?.loseContext();
+    }, { once: true });
+  } catch (error) {
+    container.replaceChildren();
+    console.warn('Galaxy background could not start', error);
+  }
+}
+
   </script>
 </body>
 </html>
