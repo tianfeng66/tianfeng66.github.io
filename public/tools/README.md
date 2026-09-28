@@ -1,0 +1,24 @@
+# 工具导航
+
+这里汇总田丰的公开工具和技能项目。每个项目继续保留在原来的独立 GitHub 仓库，便于分别更新、下载和反馈问题。
+
+| 分类 | 工具 | 适用环境 | 用途 | 入口 |
+| --- | --- | --- | --- | --- |
+| 素材与设计 | 图片工具箱 | 桌面版 Chrome / Edge | 本地图片评分筛选、查重、黑白边检测和整理 | [项目与说明](https://github.com/tianfeng66/image-toolbox) |
+| 素材与设计 | 长图切分工具 | 桌面版 Chrome | 自动识别长图切口，支持手动调整并批量导出 | [项目与说明](https://github.com/tianfeng66/long-image-splitter) |
+| 素材与设计 | PSD 字体打包 | macOS 13+ | 找出 PSD 使用的字体，并与 PSD 一起打包 | [下载与说明](https://github.com/tianfeng66/psd-font-pack) |
+| 素材与设计 | 小语种检查 | macOS 13+ | 检测图片、PDF、Word 等文件中的小语种文字并分类导出 | [下载与说明](https://github.com/tianfeng66/minor-language-checker) |
+| 视频与 AI | YouTube 下载 + 抽帧 | macOS | 下载视频并按间隔、帧数、帧率或关键帧提取画面 | [项目与说明](https://github.com/tianfeng66/youtube-downloader-frame-extractor) |
+| 视频与 AI | AI 名人介绍视频生成 | Codex 技能环境 | 生成经事实核验的旁白、分段视频提示词和参考图制作方案 | [安装与说明](https://github.com/tianfeng66/ai-mingren-video-generation) |
+| macOS 效率 | 秒搜 | macOS 14+ | 使用 Spotlight 索引快速按文件名搜索 | [下载与说明](https://github.com/tianfeng66/miaosou) |
+| macOS 效率 | 轻压 QingYa | macOS 13+ | 压缩、解压、预览压缩包并识别中文文件名编码 | [下载与说明](https://github.com/tianfeng66/qingya-mac-archiver) |
+
+## 使用提示
+
+- 浏览器工具在本机处理文件，按各项目 README 的浏览器要求打开；图片工具箱会请求所选文件夹的读写权限，长图切分工具将结果写入单独目录。
+- macOS 应用请从各项目的 Releases 或 README 下载安装。具体系统要求与已知限制以原项目说明为准。
+- AI 名人介绍视频生成是技能包，不是可独立打开的应用；安装方式见项目 README。
+- 小语种检查使用 macOS 本地识别能力；Apple 芯片 Mac 解压即用，Intel Mac 首次启动需要联网下载依赖。
+- 这里是目录，不复制各项目源码。更新和问题反馈请到对应项目仓库。
+
+网页版入口：https://tianfeng66.github.io/tools/
