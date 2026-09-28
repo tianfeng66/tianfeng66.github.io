@@ -10,21 +10,24 @@
     :root { color-scheme: dark; font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif; background: #090d0f; color: #f4f2ec; }
     * { box-sizing: border-box; }
     body { margin: 0; min-width: 320px; }
+    .ballpit-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; background: radial-gradient(ellipse at 75% 17%, #183239 0, transparent 42%), radial-gradient(ellipse at 12% 85%, #1d2338 0, transparent 45%), #090d0f; }
+    .ballpit-bg canvas { display: block; width: 100%; height: 100%; }
+    .ballpit-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(9,13,15,.74), rgba(9,13,15,.43) 53%, rgba(9,13,15,.31)); }
     a { color: inherit; }
     a:focus-visible { outline: 2px solid #84ddd3; outline-offset: 4px; }
-    .wrap { width: min(1160px, calc(100% - 44px)); margin: auto; }
+    .wrap { position: relative; z-index: 1; width: min(1160px, calc(100% - 44px)); margin: auto; }
     header { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 26px 0; border-bottom: 1px solid #2b3738; }
     header a { text-decoration: none; }
     .brand { font-size: 21px; font-weight: 800; letter-spacing: -.04em; }
     .brand span { margin-left: 10px; color: #8da09b; font-size: 11px; font-weight: 500; letter-spacing: .18em; }
     .back { color: #bac8c2; font-size: 13px; }
     .back:hover, .links a:hover, footer a:hover { color: #84ddd3; }
-    .hero { padding: 82px 0 65px; border-bottom: 1px solid #2b3738; }
+    .hero { padding: 82px 0 65px; border-bottom: 1px solid #2b3738; background: linear-gradient(90deg, rgba(9,13,15,.61), rgba(9,13,15,.16) 72%, transparent); }
     .eyebrow { color: #84ddd3; font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
     h1 { margin: 20px 0 24px; font-size: clamp(58px, 10vw, 112px); line-height: 1; letter-spacing: -.075em; }
     h1 span { color: #84ddd3; }
-    .intro { max-width: 680px; margin: 0; color: #acb9b4; font-size: 16px; line-height: 1.9; }
-    .summary { margin: 18px 0 0; color: #778984; font-size: 12px; letter-spacing: .08em; }
+    .intro { max-width: 680px; margin: 0; color: #d5dfd9; font-size: 16px; line-height: 1.9; }
+    .summary { margin: 18px 0 0; color: #a8bdb4; font-size: 12px; letter-spacing: .08em; }
     nav { display: flex; flex-wrap: wrap; gap: 9px; padding: 29px 0 18px; }
     nav a { padding: 9px 15px; border: 1px solid #3b4b48; border-radius: 99px; color: #c8d9d1; font-size: 12px; text-decoration: none; }
     nav a:hover { border-color: #84ddd3; color: #84ddd3; }
@@ -33,7 +36,7 @@
     h2 { margin: 0; font-size: clamp(27px, 3.8vw, 38px); letter-spacing: -.05em; }
     .section-head p { margin: 0; color: #859690; font-size: 12px; }
     .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-    article { display: flex; flex-direction: column; min-height: 265px; padding: 26px; border: 1px solid #2d3c3d; border-radius: 18px; background: #11191b; }
+    article { display: flex; flex-direction: column; min-height: 265px; padding: 26px; border: 1px solid #3b5352; border-radius: 18px; background: rgba(11,19,22,.89); backdrop-filter: blur(10px); }
     .meta { display: flex; justify-content: space-between; gap: 12px; align-items: start; color: #83d1c6; font-size: 11px; letter-spacing: .11em; }
     .platform { padding: 5px 9px; border: 1px solid #3d4e4a; border-radius: 99px; color: #a4b8af; white-space: nowrap; letter-spacing: 0; }
     h3 { margin: 29px 0 9px; font-size: 24px; letter-spacing: -.04em; }
@@ -41,15 +44,17 @@
     article .detail { margin-top: 8px; color: #7f9289; font-size: 12px; }
     .links { display: flex; flex-wrap: wrap; gap: 13px 20px; margin-top: auto; padding-top: 25px; }
     .links a { color: #b6e9dd; text-decoration: none; font-size: 12px; font-weight: 700; }
-    .note { margin: 15px 0 65px; padding: 22px 25px; border: 1px solid #3d4a45; border-radius: 16px; color: #aebdb5; font-size: 12px; line-height: 1.85; }
+    .note { margin: 15px 0 65px; padding: 22px 25px; border: 1px solid #3d4a45; border-radius: 16px; background: rgba(9,13,15,.76); color: #aebdb5; font-size: 12px; line-height: 1.85; }
     .note strong { color: #f4f2ec; }
     footer { display: flex; justify-content: space-between; gap: 16px; padding: 25px 0 38px; border-top: 1px solid #2b3738; color: #84928c; font-size: 11px; }
     footer a { color: #b6e9dd; text-decoration: none; }
     @media (max-width: 720px) { .section-head { display: block; } .section-head p { margin-top: 8px; } .grid { grid-template-columns: 1fr; } article { min-height: 230px; } }
     @media (max-width: 500px) { .wrap { width: min(100% - 32px, 1160px); } .hero { padding: 62px 0 50px; } footer { flex-direction: column; } }
+    @media (prefers-reduced-motion: reduce) { .ballpit-bg canvas { display: none; } }
   </style>
 </head>
 <body>
+  <div class="ballpit-bg" aria-hidden="true"><canvas id="ballpit-canvas"></canvas></div>
   <div class="wrap">
     <header><a class="brand" href="/">田丰 <span>TIAN FENG</span></a><a class="back" href="/">← 返回作品集</a></header>
     <main>
@@ -88,5 +93,189 @@
     </main>
     <footer><span>田丰 · 工具导航</span><a href="https://github.com/tianfeng66">查看全部 GitHub 项目 ↗</a></footer>
   </div>
+  <script type="module">
+    import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js';
+
+    const canvas = document.getElementById('ballpit-canvas');
+    if (canvas && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      try {
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+        renderer.outputColorSpace = THREE.SRGBColorSpace;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(52, 1, .1, 100);
+        camera.position.z = 20;
+        scene.add(new THREE.AmbientLight(0xffffff, 2.3));
+        const key = new THREE.PointLight(0xffffff, 95);
+        key.position.set(-8, 10, 16);
+        scene.add(key);
+        const fill = new THREE.PointLight(0x80d9d3, 65);
+        fill.position.set(9, -6, 7);
+        scene.add(fill);
+
+        const isSmall = window.matchMedia('(max-width: 720px)').matches;
+        const count = isSmall ? 32 : 85;
+        const gravity = .7;
+        const friction = .8;
+        const wallBounce = .95;
+        const maxVelocity = .15;
+        const geometry = new THREE.SphereGeometry(1, 20, 14);
+        const material = new THREE.MeshPhysicalMaterial({
+          metalness: .18, roughness: .21, clearcoat: 1, clearcoatRoughness: .12
+        });
+        const mesh = new THREE.InstancedMesh(geometry, material, count);
+        mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
+        mesh.frustumCulled = false;
+        const colors = [0x74ead8, 0x5aa8d9, 0xb49af4, 0xf4bb83, 0xe889a8];
+        const colorStops = colors.map(value => new THREE.Color(value));
+        const color = new THREE.Color();
+        const dummy = new THREE.Object3D();
+        const balls = Array.from({ length: count }, (_, index) => {
+          const t = index / Math.max(1, count - 1) * (colorStops.length - 1);
+          const start = Math.floor(t);
+          color.copy(colorStops[start]).lerp(colorStops[Math.min(start + 1, colorStops.length - 1)], t - start);
+          mesh.setColorAt(index, color);
+          return {
+            x: 0, y: 0, z: (Math.random() - .5) * 3,
+            vx: 0, vy: 0, vz: 0,
+            radius: index === 0 ? .68 : .34 + Math.random() * .34
+          };
+        });
+        mesh.instanceColor.needsUpdate = true;
+        scene.add(mesh);
+
+        let maxX = 10;
+        let maxY = 10;
+        let pointerActive = false;
+        let pointerX = 0;
+        let pointerY = 0;
+        let lastTime = 0;
+        let frameId = 0;
+
+        function resize() {
+          const width = window.innerWidth;
+          const height = window.innerHeight;
+          camera.aspect = width / height;
+          camera.updateProjectionMatrix();
+          maxY = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z;
+          maxX = maxY * camera.aspect;
+          renderer.setSize(width, height, false);
+          balls.forEach((ball, index) => {
+            if (index === 0) return;
+            if (!ball.x && !ball.y) {
+              ball.x = (Math.random() * 2 - 1) * maxX;
+              ball.y = (Math.random() * 2 - 1) * maxY;
+            } else {
+              ball.x = THREE.MathUtils.clamp(ball.x, -maxX + ball.radius, maxX - ball.radius);
+              ball.y = THREE.MathUtils.clamp(ball.y, -maxY + ball.radius, maxY - ball.radius);
+            }
+          });
+        }
+
+        function onPointerMove(event) {
+          pointerX = (event.clientX / window.innerWidth * 2 - 1) * maxX;
+          pointerY = (1 - event.clientY / window.innerHeight * 2) * maxY;
+          pointerActive = event.pointerType !== 'touch';
+        }
+        window.addEventListener('pointermove', onPointerMove, { passive: true });
+        window.addEventListener('pointerleave', () => { pointerActive = false; });
+        window.addEventListener('resize', resize);
+        resize();
+
+        function animate(time) {
+          frameId = requestAnimationFrame(animate);
+          if (document.hidden) { lastTime = time; return; }
+          const delta = Math.min((time - (lastTime || time)) / 1000, .033);
+          lastTime = time;
+          const steps = Math.min(delta * 60, 2);
+          const drag = Math.pow(friction, steps);
+          const cursor = balls[0];
+          cursor.x += ((pointerActive ? pointerX : maxX + 3) - cursor.x) * .18;
+          cursor.y += ((pointerActive ? pointerY : maxY + 3) - cursor.y) * .18;
+          cursor.z = 0;
+
+          for (let i = 1; i < count; i++) {
+            const ball = balls[i];
+            ball.vy -= delta * gravity * ball.radius;
+            ball.vx *= drag;
+            ball.vy *= drag;
+            ball.vz *= drag;
+            const speed = Math.hypot(ball.vx, ball.vy, ball.vz);
+            if (speed > maxVelocity) {
+              const scale = maxVelocity / speed;
+              ball.vx *= scale;
+              ball.vy *= scale;
+              ball.vz *= scale;
+            }
+            ball.x += ball.vx * steps;
+            ball.y += ball.vy * steps;
+            ball.z += ball.vz * steps;
+            if (ball.x + ball.radius > maxX || ball.x - ball.radius < -maxX) {
+              ball.x = THREE.MathUtils.clamp(ball.x, -maxX + ball.radius, maxX - ball.radius);
+              ball.vx *= -wallBounce;
+            }
+            if (ball.y - ball.radius < -maxY) {
+              ball.y = -maxY + ball.radius;
+              ball.vy *= -wallBounce;
+            }
+            if (ball.y + ball.radius > maxY) {
+              ball.y = maxY - ball.radius;
+              ball.vy *= -wallBounce;
+            }
+            if (Math.abs(ball.z) > 2) {
+              ball.z = THREE.MathUtils.clamp(ball.z, -2, 2);
+              ball.vz *= -wallBounce;
+            }
+          }
+
+          for (let i = 1; i < count; i++) {
+            const a = balls[i];
+            for (let j = pointerActive ? 0 : 1; j < i; j++) {
+              const b = balls[j];
+              let dx = a.x - b.x;
+              let dy = a.y - b.y;
+              let dz = a.z - b.z;
+              let distance = Math.hypot(dx, dy, dz);
+              const minDistance = a.radius + b.radius;
+              if (distance >= minDistance) continue;
+              if (distance < .0001) { dx = .001; distance = .001; }
+              const push = (minDistance - distance) / distance * (j === 0 ? 1 : .5);
+              a.x += dx * push;
+              a.y += dy * push;
+              a.z += dz * push;
+              a.vx += dx * .0015;
+              a.vy += dy * .0015;
+              a.vz += dz * .0015;
+              if (j !== 0) {
+                b.x -= dx * push;
+                b.y -= dy * push;
+                b.z -= dz * push;
+              }
+            }
+          }
+
+          balls.forEach((ball, index) => {
+            dummy.position.set(ball.x, ball.y, ball.z);
+            dummy.scale.setScalar(index === 0 && !pointerActive ? 0 : ball.radius);
+            dummy.updateMatrix();
+            mesh.setMatrixAt(index, dummy.matrix);
+          });
+          mesh.instanceMatrix.needsUpdate = true;
+          renderer.render(scene, camera);
+        }
+        frameId = requestAnimationFrame(animate);
+        window.addEventListener('pagehide', () => {
+          cancelAnimationFrame(frameId);
+          geometry.dispose();
+          material.dispose();
+          renderer.dispose();
+        }, { once: true });
+      } catch (error) {
+        canvas.remove();
+        console.warn('Ballpit background could not start', error);
+      }
+    }
+  </script>
 </body>
 </html>
