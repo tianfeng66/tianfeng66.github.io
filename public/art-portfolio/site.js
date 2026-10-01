@@ -11,6 +11,7 @@
   ];
   const featured = featuredIds.map(id => artworks.find(art => art.id === id)).filter(Boolean);
   const techniqueDescriptions = {
+    "精选": "气韵生动，骨法用笔，随类赋彩……笔意流转间，体例、构图、色彩、气韵皆有所悟。",
     "工笔": "工笔，以线为骨，以薄彩为魂。不急于落笔成画，待一层色彩干透，再染下一层。于反复晕染之间，藏草木风月的温柔。不求酣畅挥洒，而在精微处见天地，于沉静细腻里，捕捉万物含蓄清雅的意境。",
     "水彩": "水为媒介，色随水走。水彩以通透的颜料融于清水，在纸间自然晕化，虚实相生。不必处处填满，留白即是诗意，灵动轻盈，捕捉刹那光影。",
     "素描": "以黑白塑万象，用线条与明暗剥离浮华。褪去色彩，单靠光影层次，触摸万物最本真的形体与质感。",
@@ -285,7 +286,8 @@
     const techniqueDescription = document.getElementById("technique-description");
     const techniqueCopy = techniqueDescriptions[filter];
     techniqueDescription.hidden = !techniqueCopy;
-    document.getElementById("technique-description-name").textContent = techniqueCopy ? `${filter} / 技法介绍` : "";
+    techniqueDescription.classList.toggle("is-featured", filter === "精选");
+    document.getElementById("technique-description-name").textContent = filter === "精选" ? "书有六义，画有六法。" : techniqueCopy ? `${filter} / 技法介绍` : "";
     document.getElementById("technique-description-copy").textContent = techniqueCopy || "";
     const fragment = document.createDocumentFragment();
     const featuredCards = [];

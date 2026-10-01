@@ -90,6 +90,7 @@ h1,h2,p,figure{margin-top:0}
 .technique-description{max-width:890px;margin:-8px 0 37px;padding:0 0 19px;border-bottom:1px solid var(--line);color:#536159}
 .technique-description span{display:block;margin-bottom:11px;color:var(--ink);font-size:12px;font-weight:600;letter-spacing:.15em}
 .technique-description p{margin:0;font-family:"Songti SC","STSong","SimSun",serif;font-size:20px;line-height:1.85}
+.technique-description.is-featured span{font-family:"Songti SC","STSong","SimSun",serif;font-size:24px;font-weight:400;letter-spacing:.04em}
 .technique-description[hidden]{display:none}
 .gallery-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;color:#68746d;font-size:13px}
 .gallery-meta span:first-child{color:var(--ink);font-weight:600;font-size:15px}
